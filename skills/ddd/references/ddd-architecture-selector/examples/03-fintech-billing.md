@@ -1,5 +1,7 @@
 # Case Study: Fintech Billing System Architecture Selection
 
+> Historical case terminology: `CQRS L3` below names this example's chosen combination of CQRS and Event Sourcing, not a standard level or mandatory progression. Audit requirements alone do not require Event Sourcing; compare audit records with replayable authoritative event history. Team size is context, not an architecture eligibility rule. See the [decision guide](../README.md).
+
 ## Project Context
 
 | Dimension | Detail |

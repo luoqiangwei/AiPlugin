@@ -1,5 +1,7 @@
 # L3 Event Sourcing 完整示例
 
+> 历史命名说明：文件名及下文的 L3 仅保留作旧示例定位。Event Sourcing 是独立持久化决策，不是 CQRS 第三级，也不要求先实施独立读库。详见 [模块入口](../README.md)。
+
 > 所属级别: L3（Event Sourcing） | EventStore + Projection | 完整审计追踪
 
 ## 业务场景

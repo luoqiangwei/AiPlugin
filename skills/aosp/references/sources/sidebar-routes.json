@@ -1,0 +1,1156 @@
+{
+  "purpose": "Longest-prefix knowledge navigation only; a route does not claim all leaf details are distilled. Direct citations are reported separately.",
+  "routes": [
+    {
+      "prefix": "/docs/automotive",
+      "knowledge_files": [
+        "automotive.md"
+      ]
+    },
+    {
+      "prefix": "/docs/automotive/audio",
+      "knowledge_files": [
+        "automotive-media-integration.md"
+      ]
+    },
+    {
+      "prefix": "/docs/automotive/camera",
+      "knowledge_files": [
+        "automotive-media-integration.md"
+      ]
+    },
+    {
+      "prefix": "/docs/automotive/displays",
+      "knowledge_files": [
+        "automotive-occupants-ui.md"
+      ]
+    },
+    {
+      "prefix": "/docs/automotive/driver_distraction",
+      "knowledge_files": [
+        "automotive-occupants-ui.md"
+      ]
+    },
+    {
+      "prefix": "/docs/automotive/evs",
+      "knowledge_files": [
+        "automotive-media-integration.md"
+      ]
+    },
+    {
+      "prefix": "/docs/automotive/hmi",
+      "knowledge_files": [
+        "automotive-occupants-ui.md"
+      ]
+    },
+    {
+      "prefix": "/docs/automotive/power",
+      "knowledge_files": [
+        "automotive-vehicle-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/automotive/radio",
+      "knowledge_files": [
+        "automotive-media-integration.md"
+      ]
+    },
+    {
+      "prefix": "/docs/automotive/remote_access",
+      "knowledge_files": [
+        "automotive-vehicle-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/automotive/scalableui",
+      "knowledge_files": [
+        "automotive-occupants-ui.md"
+      ]
+    },
+    {
+      "prefix": "/docs/automotive/sdv",
+      "knowledge_files": [
+        "sdv-service-protocols.md",
+        "automotive-sdv.md"
+      ]
+    },
+    {
+      "prefix": "/docs/automotive/security",
+      "knowledge_files": [
+        "automotive-occupants-ui.md"
+      ]
+    },
+    {
+      "prefix": "/docs/automotive/users_accounts",
+      "knowledge_files": [
+        "automotive-occupants-ui.md"
+      ]
+    },
+    {
+      "prefix": "/docs/automotive/vhal",
+      "knowledge_files": [
+        "automotive-vehicle-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/automotive/voice",
+      "knowledge_files": [
+        "automotive-occupants-ui.md"
+      ]
+    },
+    {
+      "prefix": "/docs/automotive/watchdog",
+      "knowledge_files": [
+        "automotive-vehicle-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/compatibility",
+      "knowledge_files": [
+        "compatibility.md",
+        "test-harness-infrastructure.md"
+      ]
+    },
+    {
+      "prefix": "/docs/compatibility/cts",
+      "knowledge_files": [
+        "compatibility-device-verification.md",
+        "test-harness-infrastructure.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/architecture",
+      "knowledge_files": [
+        "architecture-ipc.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/architecture/16kb-page-size",
+      "knowledge_files": [
+        "native-page-size-abi.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/architecture/api-flags",
+      "knowledge_files": [
+        "native-page-size-abi.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/architecture/bootloader",
+      "knowledge_files": [
+        "bootloader-device-tree.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/architecture/configuration",
+      "knowledge_files": [
+        "system-configuration.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/architecture/dto",
+      "knowledge_files": [
+        "bootloader-device-tree.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/architecture/kernel",
+      "knowledge_files": [
+        "kernel-build-gki.md",
+        "kernel-native.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/architecture/modular-system",
+      "knowledge_files": [
+        "mainline-module-contracts.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/architecture/partitions",
+      "knowledge_files": [
+        "bootloader-device-tree.md",
+        "updates-boot.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/architecture/vndk",
+      "knowledge_files": [
+        "kernel-native.md",
+        "build-release.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/audio",
+      "knowledge_files": [
+        "audio-framework-policy.md",
+        "audio-performance-io.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/camera",
+      "knowledge_files": [
+        "camera-advanced-features.md",
+        "camera-stream-sessions.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect",
+      "knowledge_files": [
+        "connectivity-telephony.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/5g-nsa",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/5g-slicing",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/android-custom-tabs-captive-portal",
+      "knowledge_files": [
+        "network-stack-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/android-packet-filter",
+      "knowledge_files": [
+        "network-stack-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/android-proprietary-nci-commands",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/block-numbers",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/bluetooth",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/bluetooth/asha",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/bluetooth/ble",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/bluetooth/ble_advertising",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/bluetooth/hci_requirements",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/bluetooth/os-identification",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/bluetooth/services",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/bluetooth/verifying_debugging",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/call-notification",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/carrier",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/carrier-wifi",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/carrierid",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/companion-device-profile",
+      "knowledge_files": [
+        "network-stack-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/connectivity-diagnostics-api",
+      "knowledge_files": [
+        "network-stack-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/connectivity-ui",
+      "knowledge_files": [
+        "network-stack-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/data-plans",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/device-identifiers",
+      "knowledge_files": [
+        "network-stack-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/domain-selection",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/emergency-affordance",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/emergency-call",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/emergency-number-db",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/esim-error-handling",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/esim-euicc-api",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/esim-mep",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/esim-modem-requirements",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/esim-overview",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/esim-test-profiles",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/esim-transfer-carrier-integration",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/felica",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/ims",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/ims-service-entitlement",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/ims-single-registration",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/multi-operator-networks",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/network-selection",
+      "knowledge_files": [
+        "network-stack-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/offhost-payment-sync",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/oob-users",
+      "knowledge_files": [
+        "network-stack-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/phone-account-suggestion",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/presence-requirements",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/quick-access-wallet",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/ranging-oob-spec",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/ranging-oob-spec-v2",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/ranging-oob-spec-v3",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/ril",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/rtt",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/satellite",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/secure-nfc",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/signal-strength",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/small-cell",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/third-party-call-apps",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/time",
+      "knowledge_files": [
+        "localization-time.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/uicc",
+      "knowledge_files": [
+        "telephony-carrier-esim.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/update",
+      "knowledge_files": [
+        "network-stack-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/uwb",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/uwb-hal-interface",
+      "knowledge_files": [
+        "bluetooth-proximity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/vpn-ux",
+      "knowledge_files": [
+        "network-stack-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-7",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-ap-ap-concurrency",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-aware",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-coex-channel-avoidance",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-debug",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-direct",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-easy-connect",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-hal",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-infrastructure",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-low-latency",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-mac-randomization",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-mac-randomization-behavior",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-network-selection",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-overview",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-passpoint",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-rtt",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-scan",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-softap",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-sta-ap-concurrency",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-sta-sta-concurrency",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-tofu",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/connect/wifi-wpa3-owe",
+      "knowledge_files": [
+        "wifi-connectivity.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/dalvik",
+      "knowledge_files": [
+        "runtime-framework.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/data",
+      "knowledge_files": [
+        "network-data-accounting.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display",
+      "knowledge_files": [
+        "display-color-transitions.md",
+        "window-display-management.md",
+        "refresh-rate-arr.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display/adaptive-icons",
+      "knowledge_files": [
+        "systemui-app-experience.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display/app-shortcuts",
+      "knowledge_files": [
+        "systemui-app-experience.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display/circular-icons",
+      "knowledge_files": [
+        "systemui-app-experience.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display/conv-notifications",
+      "knowledge_files": [
+        "systemui-app-experience.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display/dnd",
+      "knowledge_files": [
+        "systemui-app-experience.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display/dynamic-color",
+      "knowledge_files": [
+        "systemui-app-experience.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display/home-screen-data",
+      "knowledge_files": [
+        "systemui-app-experience.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display/material",
+      "knowledge_files": [
+        "systemui-app-experience.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display/media-control",
+      "knowledge_files": [
+        "systemui-app-experience.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display/notification-history",
+      "knowledge_files": [
+        "systemui-app-experience.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display/notification-perm",
+      "knowledge_files": [
+        "systemui-app-experience.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display/quick-settings-tile",
+      "knowledge_files": [
+        "systemui-app-experience.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display/retail-mode",
+      "knowledge_files": [
+        "systemui-app-experience.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display/task-manager",
+      "knowledge_files": [
+        "systemui-app-experience.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display/textclassifier",
+      "knowledge_files": [
+        "systemui-app-experience.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/display/widgets-shortcuts",
+      "knowledge_files": [
+        "systemui-app-experience.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/fonts",
+      "knowledge_files": [
+        "localization-time.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/graphics",
+      "knowledge_files": [
+        "graphics-composer-memory.md",
+        "graphics-input.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/interaction",
+      "knowledge_files": [
+        "sensors-input-haptics.md",
+        "hardware-compute.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/interaction/accessibility",
+      "knowledge_files": [
+        "accessibility.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/media",
+      "knowledge_files": [
+        "media-pipeline-codecs.md",
+        "media-camera-audio.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/ota",
+      "knowledge_files": [
+        "ota-delivery-recovery.md",
+        "updates-boot.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/ota/modular-system",
+      "knowledge_files": [
+        "mainline-module-contracts.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/perf",
+      "knowledge_files": [
+        "performance-optimization.md",
+        "memory-resource-management.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/permissions",
+      "knowledge_files": [
+        "permissions-privacy.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/power",
+      "knowledge_files": [
+        "power-suspend-energy.md",
+        "power-performance.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/runtime",
+      "knowledge_files": [
+        "runtime-execution-format.md",
+        "runtime-framework.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/runtime/art-class-loader-context",
+      "knowledge_files": [
+        "performance-optimization.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/runtime/boot-image-profiles",
+      "knowledge_files": [
+        "performance-optimization.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/runtime/configure",
+      "knowledge_files": [
+        "performance-optimization.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/runtime/rro-troubleshoot",
+      "knowledge_files": [
+        "system-configuration.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/runtime/rros",
+      "knowledge_files": [
+        "system-configuration.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/sensors",
+      "knowledge_files": [
+        "graphics-input.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/settings",
+      "knowledge_files": [
+        "settings-search-integration.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/storage",
+      "knowledge_files": [
+        "storage-access-integration.md",
+        "storage-data.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/tests",
+      "knowledge_files": [
+        "test-harness-infrastructure.md",
+        "testing-diagnostics.md"
+      ]
+    },
+    {
+      "prefix": "/docs/core/virtualization",
+      "knowledge_files": [
+        "devices-virtualization.md"
+      ]
+    },
+    {
+      "prefix": "/docs/devices",
+      "knowledge_files": [
+        "devices-virtualization.md"
+      ]
+    },
+    {
+      "prefix": "/docs/devices/admin",
+      "knowledge_files": [
+        "enterprise-device-policy.md"
+      ]
+    },
+    {
+      "prefix": "/docs/devices/automotive",
+      "knowledge_files": [
+        "automotive.md"
+      ]
+    },
+    {
+      "prefix": "/docs/devices/cuttlefish",
+      "knowledge_files": [
+        "cuttlefish-host-guest.md"
+      ]
+    },
+    {
+      "prefix": "/docs/devices/tv",
+      "knowledge_files": [
+        "tv-device-integration.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security",
+      "knowledge_files": [
+        "security.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/features/apksigning",
+      "knowledge_files": [
+        "signing-memory-hardening.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/features/authentication",
+      "knowledge_files": [
+        "security-authentication.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/features/biometric",
+      "knowledge_files": [
+        "security-authentication.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/features/cellular-security",
+      "knowledge_files": [
+        "security-platform-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/features/dice",
+      "knowledge_files": [
+        "security-trusted-execution.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/features/encryption",
+      "knowledge_files": [
+        "storage-data.md",
+        "encryption-key-lifecycle.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/features/gpu-syscall-filtering",
+      "knowledge_files": [
+        "signing-memory-hardening.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/features/identity-credentials",
+      "knowledge_files": [
+        "security-identity-secure-elements.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/features/keystore",
+      "knowledge_files": [
+        "security-keystore-attestation.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/features/open-mobile-api",
+      "knowledge_files": [
+        "security-identity-secure-elements.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/features/private-space",
+      "knowledge_files": [
+        "security-platform-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/features/protected-confirmation",
+      "knowledge_files": [
+        "security-authentication.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/features/selinux",
+      "knowledge_files": [
+        "selinux-compatibility.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/features/trusty",
+      "knowledge_files": [
+        "security-trusted-execution.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/features/verifiedboot",
+      "knowledge_files": [
+        "updates-boot.md",
+        "security.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/safety-center",
+      "knowledge_files": [
+        "security-platform-services.md"
+      ]
+    },
+    {
+      "prefix": "/docs/security/test",
+      "knowledge_files": [
+        "signing-memory-hardening.md",
+        "testing-diagnostics.md"
+      ]
+    },
+    {
+      "prefix": "/docs/setup",
+      "knowledge_files": [
+        "setup-product-integration.md",
+        "build-release.md"
+      ]
+    },
+    {
+      "prefix": "/docs/setup/build/feature-flagging",
+      "knowledge_files": [
+        "feature-flags.md"
+      ]
+    },
+    {
+      "prefix": "/docs/setup/contribute/api-guidelines",
+      "knowledge_files": [
+        "platform-api-contracts.md"
+      ]
+    },
+    {
+      "prefix": "/docs/setup/create/app-ownership",
+      "knowledge_files": [
+        "setup-supply-chain.md"
+      ]
+    },
+    {
+      "prefix": "/docs/setup/create/create-sbom",
+      "knowledge_files": [
+        "setup-supply-chain.md"
+      ]
+    },
+    {
+      "prefix": "/docs/whatsnew",
+      "knowledge_files": [
+        "reference-and-evolution.md"
+      ]
+    },
+    {
+      "prefix": "/reference",
+      "knowledge_files": [
+        "reference-and-evolution.md"
+      ]
+    },
+    {
+      "prefix": "/static/docs/compatibility",
+      "knowledge_files": [
+        "compatibility.md"
+      ]
+    },
+    {
+      "prefix": "/static/docs/core/architecture/kernel",
+      "knowledge_files": [
+        "kernel-build-gki.md"
+      ]
+    }
+  ]
+}

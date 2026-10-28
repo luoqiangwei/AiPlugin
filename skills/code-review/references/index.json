@@ -1,0 +1,141 @@
+{
+  "description": "按本次变更的运行场景、语言和框架查找审查资料；各组可按需组合，不代表互斥的领域分类。路径相对于技能目录。",
+  "common": {
+    "quality": {
+      "title": "通用代码审查要点",
+      "reference": "references/common/quality.md",
+      "when": "需要推导契约、状态、所有权、并发、错误、兼容或验证证据时"
+    },
+    "security": {
+      "title": "安全判断与处置",
+      "reference": "references/common/security.md",
+      "when": "涉及不可信输入、权限或委托能力、敏感数据、原生内存、依赖漏洞时"
+    },
+    "logging": {
+      "title": "日志级别与诊断完整性",
+      "reference": "references/common/logging.md",
+      "when": "新增或修改日志，或修改失败处理、关键状态变化、降级、恢复、安全审计和异步任务结果；既检查日志过量，也检查应有事件是否缺失"
+    }
+  },
+  "contexts": {
+    "android-app": {
+      "title": "Android 应用",
+      "reference": "references/contexts/android-app.md",
+      "when": "APK组件、Android生命周期、平台能力、WebView或发布配置发生变化；响应性与并发按checks选专题",
+      "checks": {
+        "anr": {
+          "reference": "references/contexts/android/anr.md",
+          "when": "修改启动、输入/窗口、Receiver、Service、JobService或其依赖，可能使应用回调超时、主线程阻塞或任务积压"
+        },
+        "concurrency": {
+          "reference": "references/contexts/android/concurrency.md",
+          "when": "修改主线程/Handler/Binder/线程池间共享状态、锁、回调、等待、注册注销或进程死亡恢复"
+        },
+        "logging": {
+          "reference": "references/contexts/android/logging.md",
+          "when": "Android/App或平台日志，以及初始化、服务注册、HAL/远端失败、重连恢复和高频回调；核对级别、release/user可见性、日志构造成本与必要诊断证据"
+        }
+      }
+    },
+    "aosp": {
+      "title": "Android 系统与 AOSP",
+      "reference": "references/contexts/aosp.md",
+      "when": "Android系统服务、Binder/HAL、SELinux、兼容行为或系统分区接口发生变化；按checks选专项",
+      "checks": {
+        "compatibility": {
+          "reference": "references/contexts/android/compatibility.md",
+          "when": "修改系统可观察行为、公开API、权限、target SDK兼容分支、feature声明或跨分区接口，需要映射CDD/CTS/VTS与真实回归测试"
+        },
+        "selinux": {
+          "reference": "references/contexts/android/selinux.md",
+          "when": "修改daemon、访问路径、文件/service/property标签或策略，或试图用allow/permissive解决AVC"
+        },
+        "concurrency": {
+          "reference": "references/contexts/android/concurrency.md",
+          "when": "修改主线程/Handler/Binder/线程池间共享状态、锁、回调、等待、注册注销或进程死亡恢复"
+        },
+        "anr": {
+          "reference": "references/contexts/android/anr.md",
+          "when": "修改启动、输入/窗口、Receiver、Service、JobService或其依赖，可能使应用回调超时、主线程阻塞或任务积压"
+        },
+        "watchdog": {
+          "reference": "references/contexts/android/watchdog.md",
+          "when": "修改system_server被监测线程、Watchdog Monitor、关键锁、同步Binder/HAL调用或存活性监测注册"
+        },
+        "logging": {
+          "reference": "references/contexts/android/logging.md",
+          "when": "Android/App或平台日志，以及初始化、服务注册、HAL/远端失败、重连恢复和高频回调；核对级别、release/user可见性、日志构造成本与必要诊断证据"
+        },
+        "bpf": {
+          "reference": "references/contexts/android/bpf.md",
+          "when": "Android平台BPF的逐包helper/Map调用、循环、拉包复制、事件输出、网络计数/策略发生变化，或修改构建加载、pin/attach、权限和更新链路；优先检查高频路径无效工作"
+        }
+      }
+    },
+    "kernel": {
+      "title": "Linux 内核与驱动",
+      "reference": "references/contexts/kernel.md",
+      "when": "代码实际运行在内核，或修改驱动、内核对象生命周期与用户 ABI",
+      "checks": {
+        "bpf": {
+          "reference": "references/contexts/kernel/bpf.md",
+          "when": "修改eBPF高频路径的helper、重复查表、循环、拉包/复制、事件输出，或程序/attach类型、包解析、Map并发与加载生命周期；按实际hook和调用频率判断成本与正确性"
+        }
+      }
+    },
+    "web": {
+      "title": "浏览器与 HTTP 服务",
+      "reference": "references/contexts/web.md",
+      "when": "涉及浏览器内容或 HTTP 入口、会话、跨站、缓存、代理；只读本次相关部分"
+    }
+  },
+  "languages": {
+    "c": {
+      "title": "C",
+      "reference": "references/languages/c.md",
+      "when": "本次变更包含 C 源码或 C ABI 边界"
+    },
+    "cpp": {
+      "title": "C++",
+      "reference": "references/languages/cpp.md",
+      "when": "本次变更包含 C++ 源码、标准库或对象生命周期变化"
+    },
+    "java": {
+      "title": "Java",
+      "reference": "references/languages/java.md",
+      "when": "本次变更包含 Java 源码及其类型、对象或异常语义"
+    },
+    "kotlin": {
+      "title": "Kotlin",
+      "reference": "references/languages/kotlin.md",
+      "when": "本次变更包含 Kotlin 源码或 Java 互操作"
+    },
+    "javascript": {
+      "title": "JavaScript",
+      "reference": "references/languages/javascript.md",
+      "when": "本次变更包含 JavaScript 或依赖同一运行语义的 TypeScript"
+    },
+    "typescript": {
+      "title": "TypeScript",
+      "reference": "references/languages/typescript.md",
+      "when": "本次变更包含 TypeScript 的类型边界、收窄或声明；运行行为同时参考 JavaScript"
+    },
+    "rust": {
+      "title": "Rust",
+      "reference": "references/languages/rust.md",
+      "when": "本次变更包含 Rust 代码；不因出现 Rust 就推断 AOSP、内核、HTTP 或 Tokio"
+    }
+  },
+  "frameworks": {
+    "spring": {
+      "title": "Spring",
+      "reference": "references/frameworks/spring.md",
+      "when": "变更实际经过 Spring 容器、安全链、事务、绑定、数据访问或 WebFlux"
+    },
+    "tokio": {
+      "title": "Tokio",
+      "reference": "references/frameworks/tokio.md",
+      "when": "变更实际使用 Tokio runtime、任务、同步、通道、select 或超时；不适用于所有 Rust async"
+    }
+  }
+}

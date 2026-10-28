@@ -1,0 +1,4 @@
+interface:
+  display_name: "AOSP"
+  short_description: "Android platform knowledge, contracts and diagnostics"
+  default_prompt: "Use $aosp to explain the relevant Android platform mechanisms and constraints for this task."

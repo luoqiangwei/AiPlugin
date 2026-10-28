@@ -1,20 +1,22 @@
 # DDD DevOps Integration
 
-DevOps for DDD projects — ArchUnit quality gates (P0 block / P1 warn / P2 report) in CI/CD, multi-module incremental builds, architecture-type-aware Dockerfiles, event-driven DB migration, domain event health monitoring.
+DevOps for DDD projects — project-specific architecture gates, dependency-aware builds, and optional JVM container, storage, event delivery and monitoring examples.
+
+本模块提供 Java/Spring 服务端的可选交付示例，受 [DDD 主流程](../../SKILL.md) 的适用性和简化原则约束。只采用项目实际使用的构建、存储、事件和部署机制；下列模板不是所有 DDD 项目的交付清单。
 
 ---
 
 ## Workflow
 
-### Step 1: Code & Build — Compile all modules. Domain must compile last (zero framework contamination).
+### Step 1: Code & Build — Use the project's build graph and standard targets; compile dependencies before their consumers. Check domain dependencies explicitly rather than inferring purity from build order.
 ### Step 2: Unit Test — Per-module unit tests run independently.
-### Step 3: ArchUnit Validate — P0 (zero deps, layer compliance) blocks CI; P1 (cycle-free) warns; P2 (naming) reports.
-### Step 4: Integration Test — Cross-module interaction tests with event store and outbox.
-### Step 5: Containerize — Build Docker images (monolith fat JAR or split CQRS with tuned JVM args).
-### Step 6: Deploy — K8s deploy with per-BC namespace, DB migration init containers, health probes.
-### Step 7: Monitor — Domain metrics (event rate, outbox depth, aggregate load) → Prometheus alerts.
+### Step 3: Architecture Validate — Check the agreed dependency rules with stack-appropriate tools. Block on demonstrated correctness issues or agreed mandatory gates; phase in advisory rules separately.
+### Step 4: Integration Test — Test changed module interactions and the storage or messaging mechanisms actually used.
+### Step 5: Package — Follow the existing delivery format; use Docker images only for container deployments.
+### Step 6: Deploy — Use the simplest supported deployment and rollback path; use K8s templates only when the project deploys to K8s.
+### Step 7: Monitor — Select logs, health checks and metrics for the actual failure modes; add event delivery metrics when such delivery is used.
 
-Quality gates run at build time, never against production. Violations block merge, not deployment.
+Architecture gates run during development and CI. The project's release policy determines whether a failed mandatory gate blocks merge or release; a naming preference alone is not a production incident.
 
 ---
 
@@ -48,10 +50,10 @@ This skill is designed for: **Backend developers** (implementing DDD architectur
 
 ## Rules
 
-1. ArchUnit P0 checks (domain purity, layer compliance) must block CI pipeline on failure.
-2. Dockerfiles must be architecture-type-aware (Monolith/CQRS/Hexagonal each get different builds).
-3. Domain event monitoring must be configured before production deployment.
-4. Database migrations for event-driven systems must include event store and outbox tables.
+1. Verify agreed dependency boundaries with the project's tools; ArchUnit is one option for JVM projects.
+2. Package by actual deployable units and runtime needs. Architecture names and CQRS do not require separate images or processes.
+3. When events must be delivered reliably, validate delivery failures, retries and consumer idempotency and monitor the relevant failure modes.
+4. Add an event store only for an event-sourced design. Add a transactional outbox only when it is the chosen reliable publication mechanism; neither is required merely because the system emits events.
 
 ---
 
@@ -66,7 +68,7 @@ stages:
   - containerize
   - deploy
 ```
-ArchUnit validation in `architecture-check` stage: P0 tests (`DomainPurityTest`, `LayeringComplianceTest`) block on failure; P1 (`ModuleDependencyTest`) warns with approval; P2 (`NamingConventionTest`) reports only. Key ArchUnit rules — domain must not depend on Spring/JPA/MyBatis; layer access restrictions (Domain only by Application, Infrastructure, Interface); no cyclic package dependencies. Full guide: [references/ci-cd-archunit-setup.md](references/01-ci-cd-archunit-setup.md)
+此流水线是容器化 JVM 服务的示例；不使用容器时去掉 `containerize`。`architecture-check` 只执行已确认适用的依赖规则，问题等级根据实际影响确定。采用独立纯领域层时，可用 ArchUnit 检查 Spring/JPA/MyBatis 等实现依赖和模块循环；不要求所有平台代码零框架依赖。Full guide: [references/ci-cd-archunit-setup.md](references/01-ci-cd-archunit-setup.md)
 
 ---
 
@@ -77,7 +79,7 @@ ddd-project/
 ├── domain/ (zero framework deps) → application/ (depends on domain only) → infrastructure/ (implements domain interfaces)
 ├── adapter/ (REST/event adapters) → start/ (boot entry)
 ```
-Build optimization: `mvn compile -pl domain -am` (~60% faster changed-only), `mvn -T 4` (~40% parallel), `mvn verify -pl '!domain'` (skip domain), `actions/cache` for `target/` (~80%). Domain purity enforced via Maven Enforcer (bans Spring deps in domain module). Full config: [references/multi-module-build-config.md](references/09-multi-module-build-config.md)
+Maven 项目可按依赖图使用模块选择和并行构建，例如 `mvn verify -pl <changed-module> -am`；同时覆盖受影响的下游回归测试。缓存键应包含依赖和工具链输入，不能以缓存命中代替测试；不要按架构层名称跳过关键模块。性能收益以本项目测量为准。纯领域模块可按已确认规则使用 Maven Enforcer 检查依赖。Full config: [references/multi-module-build-config.md](references/09-multi-module-build-config.md)
 
 ---
 
@@ -91,11 +93,13 @@ FROM eclipse-temurin:17-jre-alpine
 COPY --from=builder start/target/*.jar app.jar
 HEALTHCHECK --interval=30s CMD curl -f http://localhost:8080/actuator/health
 ```
-**CQRS** — Separate images: Command (`-Xms512m -Xmx2g -XX:+UseZGC`, CPU-optimized); Query (`-Xms1g -Xmx4g`, memory-optimized). **K8s Patterns**: Per-BC `Namespace`, DB migration `initContainers` + Flyway, CQRS split `HorizontalPodAutoscaler`, `NetworkPolicy` isolation. Templates: [dockerfile-patterns.md](references/04-dockerfile-patterns.md) | [k8s-ddd-reference.md](references/07-k8s-ddd-reference.md)
+**CQRS** 可在同一应用中实现。只有读写负载、交付或隔离需求证明有收益时，才独立构建和部署；JVM 参数根据实际测量设置。已使用 K8s 时，再按运维边界选择 Namespace、迁移任务、HPA 和 NetworkPolicy，不将限界上下文机械映射成 Namespace。Templates: [dockerfile-patterns.md](references/04-dockerfile-patterns.md) | [k8s-ddd-reference.md](references/07-k8s-ddd-reference.md)
 
 ---
 
 ## 数据库迁移（事件驱动）
+
+以下 SQL 只演示事件存储及 Outbox 所需的数据结构，不要求两者同时使用。普通领域事件无需新增事件存储表；不使用数据库的模块跳过本节。实际迁移应使用项目数据库方言，并验证兼容性与回滚策略。
 
 ```sql
 CREATE TABLE domain_event_store (id UUID PRIMARY KEY, aggregate_id VARCHAR(36) NOT NULL,
@@ -107,7 +111,7 @@ CREATE TABLE outbox_message (id UUID PRIMARY KEY, event_id UUID UNIQUE NOT NULL,
     retry_count INT DEFAULT 0, created_at TIMESTAMPTZ DEFAULT NOW());
 CREATE INDEX idx_outbox_pending ON outbox_message(status) WHERE status = 'PENDING';
 ```
-Strategy: Layered single DB → Flyway/Liquibase sequential; CQRS L2 → Dual tracks + lag; Event Sourcing → Axon/EventStoreDB append-only; Per microservice → Per-BC Flyway. Full scripts: [flyway-migration.md](references/05-flyway-domain-event-migration.md) | [db-strategies.md](references/02-database-migration-strategies.md)
+Strategy: 共享数据库沿用项目迁移工具；读写存储分离时分别管理 schema 并验证同步；事件溯源时维护事件版本、投影及兼容性；独立服务各自负责拥有的数据。Full scripts: [flyway-migration.md](references/05-flyway-domain-event-migration.md) | [db-strategies.md](references/02-database-migration-strategies.md)
 
 ---
 
@@ -121,8 +125,8 @@ Alert rules: DomainEventBacklog (rate > 100 for 2m, critical), OutboxQueueGrowin
 
 ## Gotchas
 
-1. **ArchUnit 过严导致开发受阻**: 先用 warning 模式运行 2-3 个 sprint，P1/P2 不阻断 CI，团队适应后升级为 error。
-2. **CQRS 读写容器未分离**: 命令服务 CPU 密集，查询服务内存密集，应独立构建部署。
+1. **把架构偏好当作阻断门禁**: 先确认规则适用范围和现有违规基线；新增强制规则前评估真实影响。
+2. **为 CQRS 强行拆部署**: 读写模型分离不要求容器或进程分离，先验证负载和交付需求。
 3. **领域事件监控遗漏**: Event 投递延迟、Outbox 堆积、Consumer Lag 是事件驱动架构中最易忽略的可靠性指标。
 4. **单体打成微服务镜像**: 先评估 BC 是否需要独立部署，过度拆分失去聚合内强一致性优势。
 5. **数据库迁移未考虑事件存储**: 添加 Event Store 表时需同步考虑回填、索引、清理策略。
@@ -132,12 +136,12 @@ Alert rules: DomainEventBacklog (rate > 100 for 2m, critical), OutboxQueueGrowin
 
 ## FAQ
 
-**Q: ArchUnit CI 失败但代码正确？** A: 检查 Domain 层是否有框架注解污染（如 `@Service`），移到基础设施层。
-**Q: Monolith vs 微服务 DDD 部署策略？** A: 从单体开始。仅当 BC 需独立扩缩容、单 BC 团队 > 8 人、BC 间部署节奏差异大时再拆分。
+**Q: ArchUnit CI 失败但代码正确？** A: 先核实规则是否适用于当前架构和模块，再修复实际依赖违规；不要把平台实现层误当成纯领域层。
+**Q: Monolith vs 微服务 DDD 部署策略？** A: 优先清晰的逻辑模块。只有独立扩缩容、交付或所有权需求足以抵偿运维成本时再拆分，团队人数不是硬阈值。
 **Q: 如何监控领域事件而不增加延迟？** A: 异步指标（Micrometer Timer 百分比采样）+ 采样追踪（1/100 OpenTelemetry）。绝不阻塞事件发布。
-**Q: CQRS 读写应共享同一 pipeline？** A: 只共享 Domain 模块测试。Command pipeline 跑完整 ArchUnit 门禁；Query pipeline 聚焦读模型 schema 兼容性。
-**Q: Event Sourcing schema 如何管理？** A: Event Store append-only，不需 schema 迁移。版本兼容性通过事件版本号（event_type + version）管理。
-**Q: Bounded Context 金丝雀发布如何实现？** A: Service Mesh（Istio）流量权重分配。新版本先接 5% 流量，监控 domain event 健康指标后全量。
+**Q: CQRS 读写应共享同一 pipeline？** A: 跟随实际部署单元；同一应用可共用流水线。独立部署时也需覆盖共享契约、兼容性和端到端回归。
+**Q: Event Sourcing schema 如何管理？** A: 事件追加写入不代表无需演进。管理事件版本、反序列化兼容、投影迁移和历史重放；底层存储 schema 也按需迁移。
+**Q: Bounded Context 金丝雀发布如何实现？** A: 先确认它是否独立部署。使用现有流量控制工具和项目设定的观察窗口逐步放量，不为此默认引入 Service Mesh。
 
 ---
 
@@ -165,6 +169,6 @@ ddd devops, ddd ci/cd, archunit ci, domain event monitoring, ddd docker, ddd kub
 
 - [GitHub Actions Pipeline](examples/02-github-actions-pipeline.md) — Complete GitHub Actions workflow with ArchUnit
 - [GitLab CI ArchUnit Pipeline](examples/03-gitlab-ci-archunit-pipeline.md) — GitLab CI with architecture validation
-- [K8s DDD Deployment](examples/05-k8s-ddd-deployment.yaml) — K8s manifests for bounded context deployment
+- [K8s DDD Deployment](examples/05-k8s-ddd-deployment.md) — K8s manifests for bounded context deployment
 - [Flyway Domain Event Migration](examples/01-flyway-domain-event-migration.sql) — Complete migration SQL scripts
 - [Grafana Domain Health Dashboard](examples/04-grafana-domain-health-dashboard.md) — Domain event monitoring dashboard

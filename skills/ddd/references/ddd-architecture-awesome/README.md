@@ -70,22 +70,19 @@ Is business logic complex (rules, state machines, constraints)?
 
 ---
 
-## 3. Complexity Ladder — Don't Skip Levels
+## 3. Design Choices — Start Simple
 
-**Each level adds real complexity. Move up only when you've proven the current level insufficient.**
+**Choose the smallest design that meets actual constraints. These are independent decisions, not required maturity levels.**
 
 ```
-Level 1: Simple Layered (Controller → Service → Repository)
-   ↓ When business rules grow complex and need explicit modeling
-Level 2: DDD 4-Layer with Rich Domain Model (Layered)
-   ↓ When need multiple entry points (REST + CLI + MQ + gRPC)
-Level 3: Ports & Adapters (Hexagonal Architecture)
-   ↓ When read/write patterns diverge significantly
-Level 4: CQRS — Separate Read/Write Models
-   ↓ When need complete audit trail / temporal queries
-Level 5: Event Sourcing — Store events, derive state
+Existing organization → Preserve when it meets the task
+Complex rules         → Explicit domain model and invariants
+Useful IO boundaries  → Ports/adapters where isolation helps
+Divergent read/write  → CQRS models, optionally sharing the same database
+Independent read load → Assess separate stores and synchronization cost
+Replayable state      → Assess Event Sourcing independently of CQRS
 
-Your project Level: ___ (Recommend with reasoning)
+Record the choices and their evidence; no prior stage is mandatory.
 ```
 
 ---
@@ -135,9 +132,9 @@ DDD Architecture Family:
           5-50 people | Chinese enterprise | Best tooling & community
 
   Complementary Patterns:
-  ├── CQRS — Separate read/write models (L1: Model only / L2: DB separation / L3: Event Sourcing)
+  ├── CQRS — Separate read/write models; database separation is optional
   ├── Domain Events — Cross-aggregate eventual consistency
-  └── Event Sourcing — Store events as source of truth
+  └── Event Sourcing — Store events as source of truth; independent of CQRS and deployment topology
 ```
 
 ### Architecture Visual Comparison

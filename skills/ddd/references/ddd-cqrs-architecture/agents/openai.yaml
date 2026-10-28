@@ -1,4 +1,4 @@
 interface:
-  display_name: "DDD CQRS Architecture"
-  short_description: "CQRS Architecture — independent CQRS skill covering L1/L2/L3…"
-  default_prompt: "Use $ddd-cqrs-architecture to help with my current task: Comprehensive guidance for CQRS Architecture — independent CQRS skill covering L1/L2/L3 implementation levels, Event Sourcing, idempotency design, domain event lifecycle, and…"
+  display_name: "DDD Reference — CQRS"
+  short_description: "DDD reference: CQRS models, storage and event history"
+  default_prompt: "Use $ddd to assess read/write model separation, storage separation and Event Sourcing independently, using the CQRS reference module when needed."

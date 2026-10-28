@@ -2,21 +2,23 @@
 
 DDD 代码审查 + 反模式检测 + 5 维度合规评分。验证代码是否遵循 DDD 最佳实践，输出结构化审查报告。
 
+先按 [DDD 主流程](../../SKILL.md) 确认适用范围、现有架构和本次改动目标。以下反模式与 Java 工具示例是检查线索，不覆盖主文件的简化原则，也不自动决定问题等级。
+
 ## Workflow
 
 DDD 代码审查三步走：
 
 ```
-Step 1: 代码扫描 — 反模式检测清单逐项检查 + 源代码扫描
-Step 2: 评分计算 — 5 维度逐项评分（分层/领域/命名/结构/测试）
-Step 3: 报告输出 — 结构化审查报告（评分 + 反模式列表 + 修复建议）
+Step 1: 代码扫描 — 核实适用的依赖规则、业务不变式、实际调用与相关测试
+Step 2: 问题验证 — 给出触发条件、行为后果和源码证据，按影响分级；需要评估时再做五维评分
+Step 3: 报告输出 — 按严重程度列问题、位置、修复方向和验证缺口
 ```
 
-每次审查必须走完三步，输出完整报告。只口述问题不输出文档，团队无法追踪改进。
+报告深度随请求范围调整。局部代码审查直接反馈可操作问题；用户要求评分或完整架构评估时才补评分，不自动创建独立文档。
 
 ## When to Use
 
-### 触发词（触发即用）
+### 常见请求
 
 `代码审查` `DDD review` `反模式检测` `anti-pattern` `贫血模型` `充血模型检查` `架构审查` `分层合规` `代码质量评分` `layering compliance` `rich domain check` `review my DDD code`
 
@@ -32,9 +34,9 @@ Step 3: 报告输出 — 结构化审查报告（评分 + 反模式列表 + 修�
 
 | 跳过 | 改用 |
 |------|------|
-| 非 DDD 项目（纯 CRUD） | 标准代码审查（SonarQube / Checkstyle） |
-| 项目尚未引入 DDD | `ddd-architecture-awesome`（先学习 DDD 概念） |
-| 刚写完第一个 DDD 代码 | 先写完再审查 |
+| 非 DDD 项目或简单 CRUD | 按正确性、安全性、性能和可维护性审查，不强制领域模型重构 |
+| 项目尚未引入 DDD | 按当前架构审查；评估是否引入 DDD 时再读适用性模块 |
+| 只有局部实现 | 审查可见变更，明确未覆盖部分，不要求先完成整个项目 |
 | 需要架构选型 | `ddd-architecture-selector` |
 | 需要架构健康度评估 | `ddd-architecture-evaluator` |
 
@@ -44,37 +46,37 @@ This skill is designed for: **Backend developers** (implementing DDD architectur
 
 ## Rules
 
-1. Every code review must include a 5-dimension scoring report.
-2. P0 anti-patterns (anemia model, layer violation, cross-aggregate ref) block merge.
-3. Domain layer must have zero framework dependencies — verified via ArchUnit.
-4. Review reports must include fix suggestions ordered by priority (P0→P1→P2).
+1. Report demonstrated defects and meaningful architecture violations within the requested scope. Use scoring only when an assessment is requested or useful.
+2. Determine severity from the concrete impact, affected users and trigger conditions; an anti-pattern name alone cannot block merge.
+3. Verify the architecture's agreed dependency rules. A deliberately pure domain module should avoid implementation dependencies; Android platform components are not automatically pure domain modules.
+4. Order findings by severity and include source locations, consequences and practical fixes. Use ArchUnit only when appropriate to the project stack.
 
 ## Anti-Pattern Checklist
 
-12 种 DDD 反模式，按 P0（阻塞合并）/P1（下个版本前修复）/P2（持续改进）分级。
+先检查贫血模型、上帝 Service、跨聚合引用、实现依赖、循环依赖、可变值对象和重复领域规则是否造成实际问题。简单数据结构、必要的平台依赖、未使用领域事件或有证据支持的事务边界，不直接记为缺陷。
 
-- **P0 — 必须修复**: 贫血模型、上帝 Service、跨聚合直接引用、领域层框架依赖、循环依赖、Repository 返回非聚合根
-- **P1 — 应该修复**: Controller 业务逻辑、Application Service 有 SQL、值对象可变
-- **P2 — 持续改进**: 聚合过大、缺少领域事件、跨聚合事务
+- **P0 — 紧急阻断**：有证据的严重安全绕过、广泛数据损坏或关键系统不可用；需说明触发条件及影响范围。
+- **P1 — 高优先级**：可复现的核心不变式破坏、错误事务边界导致部分写入、实际构建失败或关键回归；修复后才能把相关能力报告为完成。
+- **P2 — 普通改进**：有具体后果的规则重复、边界耦合或测试遗漏；说明改进收益。单纯命名或风格偏好按项目约定处理。
 
 > 完整反模式速查表见 [references/checklist.md](references/02-checklist.md)，含 Java 代码示例和修复路径。
 
 ## Layered Compliance Matrix
 
-分层依赖检查规则（基于 ArchUnit）：
+先从项目模块、构建依赖和 ADR 确定允许依赖矩阵。下表是端口适配器式组织的示例，不强加给所有分层项目；Infrastructure 实现领域/用例接口，因此可以依赖内层：
 
 ```
     ┌─────────────────┬─────┬─────┬─────┬─────┐
     │ 层 / 可依赖     │ Infra│ Dom │ App │ Adap│
     ├─────────────────┼─────┼─────┼─────┼─────┤
-    │ Infrastructure  │  ✓  │  ✗  │  ✗  │  ✗  │
+    │ Infrastructure  │  ✓  │  ✓  │  ✓  │  ✗  │
     │ Domain          │  ✗  │  ✓  │  ✗  │  ✗  │
-    │ Application     │  ✓  │  ✓  │  ✓  │  ✗  │
-    │ Adapter         │  ✓  │  ✓  │  ✓  │  ✓  │
+    │ Application     │  ✗  │  ✓  │  ✓  │  ✗  │
+    │ Adapter         │  ✗  │  ✓  │  ✓  │  ✓  │
     └─────────────────┴─────┴─────┴─────┴─────┘
 ```
 
-**Domain 层零依赖规则（P0）**：
+**采用纯领域模块时的 JVM 实现依赖检查示例**（发现后按实际影响分级）：
   - ✗ `import org.springframework.stereotype.Service`
   - ✗ `import javax.persistence.Entity`
   - ✗ `import org.apache.ibatis.annotations.Mapper`
@@ -83,13 +85,17 @@ This skill is designed for: **Backend developers** (implementing DDD architectur
 
 ArchUnit 完整配置见 [references/archunit-config.md](references/01-archunit-config.md)。
 
+装配入口可以引用具体实现完成依赖注入。历史参考中的通用矩阵、P0 标签和零依赖模板需按本项目实际架构调整，不能直接作为全库门禁。
+
 ## Rich Domain Model Validation
 
-Rich models encapsulate behavior in entities (pass); anemic models expose state via getters/setters (fail). Key: behavior in Entity vs behavior in Service.
+有复杂领域规则时，检查规则是否集中、是否能通过不同入口一致执行，以及是否有不变式测试。仅有 getter/setter 不能证明模型错误；简单 CRUD、查询 DTO、平台协议结构可合理保留数据模型。不要仅因采用函数与数据结构组织行为而要求改成类方法。
 
 > 完整代码示例和重构对比见 [examples/rich-model-refactoring.md](examples/04-rich-model-refactoring.md)，含 3 个实战案例。
 
 ## Scoring System
+
+仅在需要架构评估时使用。评分用于定位改进方向，不代表生产就绪，也不自动阻断合并；不适用项标注 N/A 并调整总分。
 
 ### 5 维度评分
 
@@ -101,22 +107,22 @@ Rich models encapsulate behavior in entities (pass); anemic models expose state 
 | **4. 代码结构** | 15% | 包按聚合组织、类大小、圈复杂度 | 15 |
 | **5. 测试覆盖** | 10% | Domain 层测试覆盖、聚合根行为测试、事件验证 | 10 |
 
-**总分 = Σ(维度得分 × 权重)**
+各维度按“满分”列给分时，**总分 = 各维度得分之和**（已含权重，不再次加权）。
 
 ### 分数等级
 
 | 范围 | 等级 | 含义 | 行动 |
 |:----:|:----:|------|------|
-| ≥ 85 | 🟢 A | 优秀 DDD 实践 | 可上生产 |
+| ≥ 85 | 🟢 A | 适用项表现良好 | 仍需通过行为、集成及发布验证 |
 | 70-84 | 🟡 B | 基本合规，有改进空间 | 修 P1 问题 |
 | 50-69 | 🟠 C | 存在明显反模式 | 规划重构 Sprint |
-| < 50 | 🔴 D | 需要大面积重构 | 阻塞合并，必须先重构 |
+| < 50 | 🔴 D | 需要复核模型与架构适配性 | 先核实低分原因，按实际问题渐进修复 |
 
 评分细则和计算示例见 [references/scoring-criteria.md](references/09-scoring-criteria.md)、[examples/scoring-example.md](examples/05-scoring-example.md)。
 
 ## Review Report Template
 
-每次审查输出结构化报告，包含：
+需要完整评估时可参考下列结构；局部审查可以省略评分和不相关项：
 
 ```markdown
 # DDD Code Review Report
@@ -139,12 +145,12 @@ Rich models encapsulate behavior in entities (pass); anemic models expose state 
 ### 反模式清单
 | 严重级别 | 反模式 | 位置 | 修复建议 |
 |:------:|--------|------|---------|
-| P0 | 上帝 Service | OrderService.java:45-320 | 拆分为 OrderPricingService + OrderFulfillmentService |
+| P1 | 支付状态检查与写入未形成原子操作，并发请求可重复扣款 | OrderService.java:45 | 使用项目支持的并发控制，并补并发支付回归测试 |
 
 ### 改进建议（按优先级）
-1. [P0] 将 OrderAppService 中的 SQL 移到 Repository 实现
-2. [P1] 将 User 实体改为充血模型
-3. [P2] 为关键业务操作补充领域事件
+1. [P1] 修复并发支付的原子性并验证扣款次数
+2. [P2] 将多入口重复的定价规则集中，保留现有行为
+3. 按实际消费需求评估领域事件，不为评分新增事件机制
 ```
 
 完整模板见 [references/report-template.md](references/08-report-template.md)、示例见 [examples/review-report-example.md](examples/03-review-report-example.md)。
@@ -158,11 +164,11 @@ Rich models encapsulate behavior in entities (pass); anemic models expose state 
 | 问题 | 回答 |
 |------|------|
 | 一次审查要多久？ | 小项目（1-2 聚合）约 30-60 分钟；大项目按模块分次审查 |
-| 评分是主观的吗？ | 每个检查项有明确检测标准（见 references/scoring-criteria.md），可重复、可验证 |
-| ArchUnit 检查必须自己写吗？ | 直接使用 references/archunit-config.md 中的配置，复制到项目即可 |
-| 找到了反模式，改不动怎么办？ | 以 P0 优先修复。P1/P2 记入技术债务，制定偿还计划 |
+| 评分是主观的吗？ | 评分依赖适用性和权重选择；明确评分范围与证据，不能用总分替代缺陷分析。 |
+| ArchUnit 检查必须自己写吗？ | JVM 项目可参考模板，按实际模块和允许依赖调整后验证，不直接复制为全库门禁。 |
+| 找到了反模式，改不动怎么办？ | 先核实具体后果与等级。P0/P1 未解决时明确相关能力受阻，不能以评分或技术债条目代替修复；普通改进按范围安排。 |
 | 审查频率建议？ | 代码审查推荐 PR 合并前做。架构级审查推荐每季度一次 |
-| 与非 DDD 架构的审查区别？ | DDD 审查关注领域模型健康度，非 DDD 审查关注代码规范/性能/安全 |
+| 与非 DDD 架构的审查区别？ | 都关注正确性、安全、性能和可维护性；采用 DDD 的部分额外检查统一语言、领域规则和一致性边界。 |
 
 ## Security & Safety
 

@@ -1,5 +1,7 @@
 # CQRS Core Principles — Architecture Integration
 
+本文的 L1/L2/L3 是旧示例标签：模型分离、存储分离、Event Sourcing 是独立决策，不是逐级升级。模型分离允许共享数据库并直接查询共享表；下图只展示独立读库的一个方案。Event Sourcing 不要求预先实施存储分离，详见 [模块入口](../../README.md)。
+
 ## 核心分离原则
 
 传统 CRUD 与 CQRS 对比：
@@ -78,7 +80,7 @@ public class OrderPaidEventHandler {
 }
 ```
 
-## L3 — Event Sourcing Code Example
+## Event Sourcing Code Example（旧标签 L3，独立于 CQRS）
 
 ```java
 // 事件溯源聚合
@@ -114,7 +116,7 @@ public class OrderProjection {
 
 ```
 Phase 1: 评估（1d）
-  → 确认是否需要 CQRS → 选择 L1/L2/L3 级别
+  → 分别评估模型分离、存储分离和 Event Sourcing 的必要性
 
 Phase 2: 命令模型设计（1-2d）
   → 设计 Command 对象 → 实现 CommandHandler → 发布领域事件
@@ -122,7 +124,7 @@ Phase 2: 命令模型设计（1-2d）
 Phase 3: 查询模型设计（1-2d）
   → 设计 Query 对象 → 实现 QueryHandler → DTO 组装
 
-Phase 4: 事件同步（L2/L3 需要，1-3d）
+Phase 4: 事件同步（仅在选择异步投影或可靠事件外发时需要，按实际范围估算）
   → Outbox 表 → 事件发布器 → 投影更新
   → 幂等策略实现 → 重试/死信机制
 

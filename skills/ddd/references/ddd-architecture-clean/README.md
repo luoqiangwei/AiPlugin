@@ -2,6 +2,8 @@
 
 > Clean Architecture by Robert C. Martin (Uncle Bob): UseCase-centric, strict dependency rule — source code dependencies must point only inward.
 
+本模块是采用 Clean 组织方式时的参考，适用性与简化原则以 [DDD 主流程](../../SKILL.md) 为准。Clean、Onion、Hexagonal 的原则可以重叠，重点是清晰且一致的依赖规则；不因读取本模块而重组存量平台。下列 Spring/JPA/ArchUnit 示例只用于相应技术栈。
+
 ## Quick Start
 
 直接说明你的需求，例如： "帮我建整洁架构项目骨架" / "订单模块实现 CreateOrder UseCase，从实体到控制器" / "检查项目依赖方向是否正确" / "从三层迁移到整洁架构，先迁订单"。
@@ -17,10 +19,10 @@
 识别聚合根 → 设计实体 + 值对象 → 实现业务规则 → 定义领域事件。参考 [01-core-entities](references/01-core-entities.md)、[order-entity example](examples/01-order-entity.md)
 
 ### Step 3: 定义 UseCase 端口
-为每个 UseCase 定义独立 Input Port → Output Port → UseCase DTO。参考 [02-usecase-ports](references/02-usecase-ports.md)
+按调用方与用例契约定义内聚的 Input Port、需要的 Output Port 和数据边界，避免为每个类机械增加接口。参考 [02-usecase-ports](references/02-usecase-ports.md)
 
 ### Step 4: 实现 UseCase Interactor
-编写 Interactor → 编排实体 + 端口调用 → 发布领域事件。参考 [03-interactors](references/03-interactors.md)、[create-order example](examples/02-create-order-usecase.md)
+编写 Interactor → 编排实体与端口调用 → 处理用例级流程和事务 → 按需要收集与发布领域事件。参考 [03-interactors](references/03-interactors.md)、[create-order example](examples/02-create-order-usecase.md)
 
 ### Step 5: 实现适配器层
 Controller → Presenter → Repository Impl → Gateway Impl → DI 配置。参考 [04-adapters](references/04-adapters.md)、[05-framework-config](references/05-framework-config.md)
@@ -34,7 +36,7 @@ Enterprise 单元测试 → UseCase 集成测试 → Adapter 集成测试 → Ar
 |----------|-----------|
 | 企业级核心系统（订单、支付、库存） | 临时脚本、小工具 |
 | 业务规则独立于交付机制 | 前端重后端轻的简单 CRUD |
-| 需要严格模块物理隔离（15-50 人团队） | 团队 < 5 人、需快速迭代 |
+| 需要清晰的用例边界和模块依赖 | 抽象成本超过当前收益 |
 | 微服务内部标准化架构 | 简单三层架构已足够 |
 | UseCase 驱动的复杂业务编排 | 无复杂业务逻辑的管理后台 |
 
@@ -42,17 +44,17 @@ Enterprise 单元测试 → UseCase 集成测试 → Adapter 集成测试 → Ar
 
 | 类别 | 能力 | 说明 |
 |------|------|------|
-| ✅ 擅长 | 严格分层的企业级系统 | 15-50 人团队，模块间强隔离 |
+| ✅ 擅长 | 依赖边界明确的业务系统 | 根据测试、变化和协作需要决定物理隔离 |
 | ✅ 擅长 | UseCase 驱动设计 | 每个用例独立 Interactor + Port |
 | ✅ 擅长 | 依赖规则自动化检查 | ArchUnit 全自动验证分层合规 |
 | ✅ 擅长 | 多语言落地 | Java/Go/TypeScript/C# 均可实现 |
 | ⚠️ 需条件 | 团队理解 Interactor 模式 | 否则学习成本高，需培训 |
-| ⚠️ 需条件 | 项目有一定规模 | 小项目用 Layered/Onion 更合适 |
-| ⚠️ 需条件 | 需配合 DDD 领域模型 | 单独使用 Clean Architecture 过于抽象 |
+| ⚠️ 需条件 | 抽象具有实际收益 | 小项目也可轻量使用，不按人数决定架构 |
+| ⚠️ 需条件 | 业务规则适合领域建模 | Clean 本身不要求引入全部 DDD 战术模式 |
 | ❌ 超出范围 | 简单 CRUD 项目 | 用 `ddd-architecture-layered` |
-| ❌ 超出范围 | 中文 Spring Boot 生态 | 用 `ddd-architecture-cola` |
-| ❌ 超出范围 | 需要可视化环状模型 | 用 `ddd-architecture-onion` |
-| ❌ 超出范围 | 需要端口适配器概念 | 用 `ddd-architecture-hexagonal` |
+| 相关参考 | COLA 工程约定 | 按需读取 `ddd-architecture-cola`，不改变已选依赖规则 |
+| 相关参考 | 同心层的表达 | 可参考 `ddd-architecture-onion` 的重叠原则 |
+| 相关参考 | 端口适配器边界 | 可参考 `ddd-architecture-hexagonal`，避免重复接口层 |
 
 ## 受众说明
 
@@ -78,11 +80,11 @@ Enterprise ← UseCase ← Adapter ← Framework
 | 规范 | 说明 | 违规示例 |
 |------|------|---------|
 | Entity 零框架依赖 | 不可 import Spring/JPA/Jackson | `@Entity` 出现在 `core/entity/` |
-| 每个 UseCase 独立端口 | 一个 UseCase = 一个 Input Port 接口 | 多个 UseCase 共享同一个接口 |
-| Interactor 只编排不做业务 | 业务 if/else 必须在 Entity 中 | Interactor 中有状态机判断 |
+| 端口按契约内聚 | 独立变化的调用方或用例分离，简单模块可直接调用用例 | 为所有用例添加无差别大接口或重复抽象 |
+| Interactor 编排用例 | 可包含流程、授权和错误分支；领域不变式由领域对象负责 | 用例复制领域状态规则，出现不一致行为 |
 | Output Port 在 UseCase 定义 | Repository 接口定义在 usecase 层 | Adapter 定义 Repository 接口 |
 | 数据转换在 Adapter 层 | Controller DTO 不可穿越到 UseCase | `@RequestBody` DTO 直接传入 Interactor |
-| 事务在 Framework 层管理 | @Transactional 只在 adapter/repository | Entity 方法上有 @Transactional |
+| 事务覆盖用例一致性边界 | 根据用例决定边界，由事务端口、装饰器或项目已有声明式事务实现 | 每次 Repository 调用单独提交，破坏用例原子性 |
 
 详细规范请参考 [references/06-dependency-rules.md](references/06-dependency-rules.md)。
 
@@ -90,21 +92,21 @@ Enterprise ← UseCase ← Adapter ← Framework
 
 | # | 陷阱 | 现象 | 正确做法 |
 |---|------|------|---------|
-| 1 | UseCase 包含业务逻辑 | Interactor 中有 if/else 状态判断 | 抽到 Entity/Domain Service |
-| 2 | Input Port 共享 | 多个 UseCase 共用一个接口 | 每个 UseCase 独立 Input Port |
+| 1 | 用例复制领域规则 | 多处重复决定聚合是否合法转换 | 将领域不变式集中在 Entity/Domain Service，保留用例级编排 |
+| 2 | Input Port 过大 | 不相关用例被同一接口绑定 | 按调用方与契约拆分，不机械要求一用例一接口 |
 | 3 | Controller DTO 穿越层 | 框架 DTO 传入 UseCase 层 | Adapter 层完成 DTO ↔ Domain 转换 |
 | 4 | Entity 上有 @Entity 注解 | JPA 注解泄露到 Enterprise 层 | 在 Adapter 层创建独立的 JPA Entity |
 | 5 | Interactor 直接调 Adapter | 跳过 Output Port 调用实现类 | 通过 Output Port 接口调用 |
 | 6 | Output Port 放在 Adapter 层 | UseCase 依赖 Adapter 包 | Output Port 接口定义在 UseCase 层 |
 | 7 | UseCase 返回 Entity 对象 | Interactor 返回 `Order` 而非 DTO | 返回 UseCase 专属 Output DTO |
 | 8 | 过度设计简单查询 | 读操作也走完整 Input→Interactor→Output | 简单查询直接走 Repository |
-| 9 | Adapter 包含业务逻辑 | Controller 中有 if/else | 业务逻辑全在 Enterprise 层 |
-| 10 | 缺少 ArchUnit 检查 | 依赖违规无法自动发现 | CI 中集成 ArchUnit 测试 |
+| 9 | 领域规则泄漏到 Adapter | 协议入口独立决定领域状态转换是否合法 | 领域规则交给领域模型，Adapter 保留协议、权限及映射分支 |
+| 10 | 依赖边界缺少验证 | 模块反向依赖无法发现 | 按项目技术栈检查依赖，JVM 可使用 ArchUnit |
 | 11 | 领域对象可变 | ValueObject 有 setter 方法 | 所有值对象不可变 (record/final) |
-| 12 | UseCase 粒度不当 | Interactor 过大 (200+ 行) | 一个 Interactor 只做一个业务操作 |
-| 13 | 忽略领域事件 | 关键操作后无事件发布 | 状态变更必须产生领域事件 |
-| 14 | 事务在 UseCase 层 | Interactor 上有 @Transactional | 事务在 Adapter/Repository 层 |
-| 15 | Entity 构造函数暴露 | Entity 用 public 构造函数 | 使用 static factory 方法（如 Order.create()） |
+| 12 | UseCase 粒度不当 | 不相关业务目标与事务混在同一流程 | 按可验收的用例职责拆分，行数只用于定位线索 |
+| 13 | 遗漏所需领域事件 | 已约定的业务事实没有通知消费者 | 按业务语义设计事件，无通知需求的状态变更无需发布事件 |
+| 14 | 事务边界碎片化 | 多次 Repository 写入各自提交导致部分成功 | 由用例确定一致性边界；在外层装饰器或项目认可的应用层事务中实现 |
+| 15 | 无效对象可被构造 | 构造入口绕过不变式 | 在构造函数或静态工厂验证约束，按实际需要选择 |
 
 ## FAQ
 
@@ -112,18 +114,18 @@ Enterprise ← UseCase ← Adapter ← Framework
 |---|------|------|
 | 1 | Clean Architecture 和六边形架构有什么区别？ | 整洁架构以 UseCase 为组织核心，强调四层严格隔离；六边形以 Port/Adapter 为抽象，强调驱动/被驱动端口对称性。核心目标一致：内层不依赖外层。 |
 | 2 | 什么时候用 Interactor vs Domain Service？ | Interactor 在 UseCase 层做编排（调 Entity + 调 Port）；Domain Service 在 Enterprise 层封装跨实体的业务规则（如 PricingService）。 |
-| 3 | Service 在哪里写业务逻辑？ | 都没有。Entity 中有业务方法（pay/cancel），DomainService 封装跨实体规则，Interactor 只编排不决策。 |
-| 4 | 每个 UseCase 都要有独立的 Input Port 吗？ | 是。这遵循接口隔离原则（ISP）。IOrderService 这种大接口是反模式。 |
+| 3 | Service 在哪里写业务逻辑？ | Entity/DomainService 封装领域规则，Interactor 处理用例级流程、端口协调与异常；不能用是否出现 if/else 判断违规。 |
+| 4 | 每个 UseCase 都要有独立的 Input Port 吗？ | 不必。按调用方和变化边界定义内聚契约，避免大而不相关的接口，也避免纯转发接口。 |
 | 5 | 一个 UseCase 有多个输出怎么办？ | 每个输出独立为一个 Output Port。如 OrderRepository 为持久化，EventPublisher 为事件，PaymentGateway 为支付。 |
-| 6 | Entity 层可以引用 Repository 接口吗？ | 不可以。Enterprise 层不能知道任何 Output Port 的存在。Repository 接口在 UseCase 层定义。 |
+| 6 | Repository 接口放哪一层？ | 按接口所表达的领域或用例契约确定归属；本模块的示例放在 UseCase 层。实现层依赖接口层，不让内层依赖具体存储实现。 |
 | 7 | 简单查询也走 UseCase 层吗？ | 不。纯读操作可以直接调用 Repository（查询不改变状态）。写操作必须走 UseCase。 |
 | 8 | 如何组织多个 UseCase？ | 按业务聚合组织：`order/usecase/` 下放所有 Order 相关的 CreateOrder/PayOrder/CancelOrder。 |
-| 9 | Interactor 中如何做事务？ | Framework 层通过声明式事务（@Transactional）包裹 Interactor 调用。 |
+| 9 | Interactor 中如何做事务？ | 用例定义原子性需求，外层事务装饰器可包裹调用；项目采用应用层声明式事务时遵循既有约定，领域对象不承担框架事务管理。 |
 | 10 | JPA Entity 和 Domain Entity 要分开吗？ | 要。JPA Entity（@Entity）在 Adapter 层，Domain Entity（纯 POJO）在 Enterprise 层。通过 Converter 转换。 |
-| 11 | 项目从三层架构迁移要多久？ | 小型 (6 周) / 中型 (12 周) / 大型 (20 周)。使用 Strangler Fig 模式按 UseCase 逐步迁移。 |
+| 11 | 项目从三层架构迁移要多久？ | 根据耦合、测试基线和交付范围估计；先迁一个代表性用例验证收益和成本，不按项目大小承诺固定周期。 |
 | 12 | 如何保证依赖规则不被破坏？ | 在 Framework 模块中写 ArchUnit 测试（参考 examples/04-archunit-test.md），CI 中每次提交自动检查。 |
 | 13 | 值对象和实体的区别？ | 值对象不可变、无 ID、按属性相等（如 Money）；实体可变、有唯一 ID、按 ID 相等（如 Order）。 |
-| 14 | 领域事件是同步还是异步发布？ | Interactor 中同步收集事件并发布到 EventPublisher Port。异步处理由 Adapter 实现（写消息队列）。 |
+| 14 | 领域事件是同步还是异步发布？ | 按一致性和可靠性需求选择。外部可靠通知需避免提交前发布或提交后丢失；采用事务 Outbox 等机制时验证重复投递与幂等，不默认引入消息队列。 |
 | 15 | 适配器层可以有多个实现吗？ | 可以。一个 Output Port 可以有多个 Adapter 实现：JPA/MyBatis/InMemory，通过 Spring Profile 切换。 |
 
 ## Keywords
@@ -168,6 +170,6 @@ Clean Architecture, 整洁架构, Robert C. Martin, Uncle Bob, Enterprise Busine
 ## Security & Stability
 
 - 所有代码模板为教育用途。生产环境请用环境变量替换占位凭证。
-- 整洁架构的依赖规则（只能向内）天然阻止领域代码访问 I/O — 内置安全优势。
+- 依赖规则可减少领域与 I/O 实现的耦合，但不代替权限检查、输入验证或安全边界测试。
 - Interactor 模式确保每个 UseCase 可独立测试，无需框架或数据库依赖。
 - 不包含可执行脚本。本 Skill 仅提供架构指导和代码生成模式。

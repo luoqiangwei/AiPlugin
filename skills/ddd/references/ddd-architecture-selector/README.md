@@ -2,6 +2,8 @@
 
 Architecture selection decision guide that evaluates 5 DDD architecture patterns (Layered, Onion, Hexagonal, Clean, COLA) against project context — team size, business complexity, tech stack, infrastructure change frequency, and ecosystem preference.
 
+这些模式有重叠的目标和原则，不是严格互斥的五种产品。确定一种主要组织方式，并明确模块职责、依赖方向和检查方法；复用兼容原则时不重复增加同义层。已有平台或项目架构优先，不为套用模式而重组整个工程。本模块及其支持资料服从主 [DDD Skill](../../SKILL.md) 的适用性、任务范围和简化原则。
+
 ## Workflow
 
 ### Step 1: Collect Project Context
@@ -17,16 +19,16 @@ Architecture selection decision guide that evaluates 5 DDD architecture patterns
 - Compare 5 architectures across 7+ dimensions
 
 ### Step 3: Apply Decision Tree
-- Complexity → Team Size → Tech Stack → Recommended Architecture
+- Existing constraints → domain complexity → dependency/test boundaries → feasible organization
 
-### Step 4: Recommend CQRS Level
-- L0: None, L1: Model Separation, L2: DB Separation, L3: Event Sourcing
+### Step 4: Assess CQRS and Persistence Independently
+- Decide whether read/write models need separation, whether storage needs separation, and whether events must be the source of truth. Event Sourcing is not a CQRS upgrade level.
 
 ### Step 5: Classify Domain Types
 - Core / Generic / Supporting → Apply different architectures per domain
 
 ### Step 6: Suggest Microservice Splitting
-- One BC → One Service, with merge/split rules
+- Default to logical modules; assess independent deployment only when operational and ownership needs justify it
 
 ### Step 7: Route to Specific Architecture Skill
 - Link to detailed implementation guidance
@@ -52,7 +54,7 @@ Architecture selection decision guide that evaluates 5 DDD architecture patterns
 | ✅ **Handles** | CQRS / Event Sourcing necessity assessment | — |
 | ✅ **Handles** | Domain classification (Core / Generic / Supporting) | — |
 | ✅ **Handles** | Microservice splitting based on bounded contexts | — |
-| ✅ **Handles** | Team size → architecture mapping | — |
+| ✅ **Handles** | Team capability and ownership constraints | — |
 | ⚠️ **Requires** | Basic project context: team size, business complexity, tech stack | — |
 | ⚠️ **Requires** | Domain expert or product owner involvement for classification | — |
 | ❌ **Out of Scope** | Architecture already decided | 直接读取对应架构模块：[Layered](../ddd-architecture-layered/README.md) / [Onion](../ddd-architecture-onion/README.md) / [Hexagonal](../ddd-architecture-hexagonal/README.md) / [Clean](../ddd-architecture-clean/README.md) / [COLA](../ddd-architecture-cola/README.md) |
@@ -68,9 +70,9 @@ This skill is designed for: **Backend developers** (implementing DDD architectur
 
 ## Rules
 
-1. Architecture selection must evaluate at least 5 dimensions.
-2. Never recommend Event Sourcing as default — only after L2 CQRS success.
-3. Team size and domain complexity must be the primary selection factors.
+1. Evaluate existing constraints, domain complexity, dependency boundaries, testability and operating cost to the depth needed for this decision.
+2. Never recommend Event Sourcing as default. Assess its value and event versioning/replay costs independently of CQRS and database separation.
+3. Team size informs coordination cost; it does not determine architecture or require migration. Choose the smallest change that meets the actual constraints.
 
 ## 5-Architecture Decision Matrix
 
@@ -85,7 +87,7 @@ This skill is designed for: **Backend developers** (implementing DDD architectur
 | **Code Generation Support** | Good | Poor | Poor | Poor | Excellent |
 | **Module Physical Isolation** | Low | Medium | Medium | High | High |
 | **Evolution Path Clarity** | ★☆☆ | ★★★ | ★★★ | ★★★ | ★★★ |
-| **Team Size Fit** | 1-5 | 5-15 | 5-15 | 15-50 | 5-50 |
+| **Coordination Focus** | Clear layer responsibilities | Domain-centered dependencies | Adapter contracts | Use-case and module boundaries | Shared Java engineering conventions |
 | **Origin** | Martin Fowler | Jeffrey Palermo (2008) | Alistair Cockburn (2005) | Robert C. Martin (2012) | Alibaba (2018) |
 
 | Architecture | Best For | Avoid When |
@@ -93,8 +95,8 @@ This skill is designed for: **Backend developers** (implementing DDD architectur
 | **Layered** | Simple CRUD, small teams, traditional MVC migration | Complex business rules, frequent infra changes |
 | **Onion** | High test coverage, changing infrastructure | CRUD-heavy apps, teams with no abstraction experience |
 | **Hexagonal** | Multi-entry systems, microservice standardization | Simple single-entry CRUD, quick prototypes |
-| **Clean** | Large enterprise systems, strict physical isolation | Small teams (<5), rapid MVP iterations |
-| **COLA** | Chinese Spring Boot ecosystem, engineering standards | Non-Java stacks, international teams |
+| **Clean** | Explicit use-case boundaries and inward dependencies | Extra interfaces/modules have no demonstrated benefit |
+| **COLA** | Java ecosystem with a need for its conventions and extension points | Non-Java stacks or existing conventions already meet the need |
 
 ## 3-Step Decision Tree
 
@@ -103,10 +105,8 @@ This skill is designed for: **Backend developers** (implementing DDD architectur
 ```
 Business Complexity?
 │
-├── Simple CRUD (80%+ CRUD operations)
-│   └── Planning DDD adoption in future?
-│       ├── No  → LAYERED ARCHITECTURE
-│       └── Yes → COLA Simplified (single module)
+├── Simple CRUD / little domain behavior
+│   └── Keep existing conventions or simple layers; do not add speculative DDD abstractions
 │
 ├── Moderate (core business logic with rules)
 │   ├── Chinese ecosystem / Spring Boot + MyBatis?   → COLA
@@ -115,23 +115,23 @@ Business Complexity?
 │   ├── Infrastructure changes often?                 → HEXAGONAL / ONION
 │   └── .NET / Python stack?                          → ONION
 │
-└── High (multiple BCs, microservices)
-    ├── Enterprise / international team?              → CLEAN ARCHITECTURE
-    ├── Chinese enterprise, per-service standards?     → COLA (multi-module)
-    ├── Mixed tech stack per service?                 → HEXAGONAL per service
-    └── Need microservice + standard per module?      → COLA + HEXAGONAL hybrid
+└── High (multiple contexts or complex rules)
+    ├── Need use-case boundaries and inward dependencies? → Consider CLEAN
+    ├── Need Java engineering conventions?                → Consider COLA
+    ├── Multiple protocols or replaceable dependencies?   → Consider HEXAGONAL
+    └── Existing platform constrains modules/lifecycle?   → Preserve platform structure; isolate rules locally
 ```
 
-### Step 2: Match Team Size
+### Step 2: Check Delivery and Ownership Constraints
 
-| Team Size | Recommended Architecture | Rationale |
+| Evidence | Decision to assess | Rationale |
 |-----------|------------------------|-----------|
-| 1-5 | Layered or COLA simplified | Lowest ceremony, fastest delivery |
-| 5-15 | Hexagonal / Onion / COLA (single module) | Balance abstraction and productivity |
-| 15-50 | Clean / COLA (multi-module) | Physical isolation, parallel team work |
-| 50+ | Microservices + Hexagonal per service | Autonomous teams, independent deploy |
+| Tight delivery budget | Fewer layers, ports and modules | Keep only abstractions that improve this task |
+| Several owners change the same code | Explicit module contracts and dependency checks | Reduce coordination and unintended coupling |
+| Framework dependencies obstruct tests | Isolate relevant rules and adapters | Enable focused tests without replacing the whole architecture |
+| Independent release or scaling needs | Evaluate separate deployment and its cost | Distribution requires operational evidence |
 
-**Evolution Path**: Team grows → upgrade architecture progressively: 1-5 (Layered) → 5-15 (Hexagonal) → 15-50 (Clean/COLA) → 50+ (Microservices+Hex).
+**Evolution**: Change architecture when concrete constraints or measured problems change. Team growth alone is not a migration trigger, and no named pattern is a mandatory next stage.
 
 ### Step 3: Final Recommendation
 
@@ -144,9 +144,9 @@ Business Complexity?
 | Rapid prototype → evolve DDD later | **Layered** → upgrade | Lowest startup cost, clear evolution path |
 | Complex business rules + TDD | **Hexagonal** | Domain layer independently testable |
 | Team new to DDD, incremental adoption | **Layered** | Closest to traditional 3-tier, gentlest learning curve |
-| Microservice internal architecture standard | **Hexagonal** + **COLA** per service | Port isolation + engineering standards |
-| Read-heavy, complex queries | **CQRS L2** | Read/write separation, independent optimization |
-| Full audit trail needed | **Event Sourcing** (L3) | Event stream naturally supports audit |
+| Service implementation needs shared conventions | Choose a primary organization and explicit adapter contracts | Avoid duplicate layers for overlapping patterns |
+| Read-heavy, complex queries | Assess queries/indexes first, then CQRS and storage separation | Separate stores only when independent optimization justifies synchronization cost |
+| Need to reconstruct state from event history | Assess **Event Sourcing** independently | Compare replay/versioning costs with simpler audit records |
 
 ## Domain Partitioning + Microservice Splitting
 
@@ -158,26 +158,26 @@ Business Complexity?
 | **Generic Domain** (通用域) | Purchase or open-source reuse | Layered or off-the-shelf SaaS | Authentication, Authorization, Notification |
 | **Supporting Domain** (支撑域) | Outsource or low priority | Layered or simple CRUD | Reports, Admin dashboard, Data export |
 
-**Key rule**: Don't apply Hexagonal or Clean to generic/supporting domains — it wastes effort. Reserve complex architectures for Core domains only.
+**Key rule**: Investment follows domain value and actual constraints. Generic/supporting domains usually need simpler implementations, but adapters or dependency isolation may still be useful; a domain label does not prohibit an architecture.
 
 ### Microservice Splitting Rules
 
-1. **Default**: One Bounded Context → One Microservice
+1. **Default**: Express bounded contexts as logical modules with explicit model ownership. A bounded context is not automatically a process, repository or microservice.
 2. **Split when**: Different deployment cadence, different scaling needs, different team ownership
-3. **Merge when**: Strong transactional consistency needed, small context (< 2 weeks dev), same team
+3. **Keep together or reconsider boundaries when**: Independent deployment adds little value, consistency requirements are difficult to satisfy across processes, or ownership and release needs remain shared.
 4. **Start conservative**: Fewer services, split as needed (proven by need, not anticipation)
-5. **Communication**: Events for eventual consistency, RPC for strong consistency (rare)
+5. **Communication**: Choose in-process calls, RPC or events according to coupling, latency and consistency needs. RPC alone does not make cross-service updates atomic.
 
-## CQRS Level Suggestion
+## CQRS and Persistence Decisions
 
-| Level | Description | Cost | Architecture Support | When to Use |
+| Decision | Description | Added cost | Architecture Support | When to Use |
 |-------|-------------|------|---------------------|-------------|
-| **L0 — None** | Single model, single DB | Zero | All architectures (default) | Simple CRUD, no read/write conflict |
-| **L1 — Model Separation** | CommandService + QueryService, shared DB | Low | All architectures | Moderate read/write disparity |
-| **L2 — DB Separation** | Command DB + Read DB (ES/slave), sync via events | Medium | Hexagonal / Clean / COLA | High read volume, complex queries |
-| **L3 — Event Sourcing** | Event Store + Projections, full event replay | High | Hexagonal / Clean | Audit trail, temporal queries, compliance |
+| **No CQRS** | One suitable model for reads and writes | None from CQRS | Any | Existing model meets the use cases |
+| **Separate models** | Separate command and query responsibilities; storage may be shared | More code/contracts | Any | Read and write behavior or data shape materially diverge |
+| **Separate storage** | Dedicated read models/stores with an explicit synchronization strategy | Projection, lag and recovery handling | Any with clear boundaries | Measured query or scaling needs justify it |
+| **Event Sourcing** | Persist events as authoritative state and derive current state | Event evolution, replay and operational tooling | Any with explicit persistence boundaries | Reconstructing state from history is valuable enough to justify the cost |
 
-**Recommendation**: Start at L0, prove need for higher levels. L2+ should only be adopted alongside Hexagonal or Clean architectures for proper port isolation.
+**Recommendation**: Decide these dimensions independently; shared-database CQRS may query shared tables directly through the query path. Event Sourcing can be used with or without CQRS and does not require a prior separate-database implementation. Historical `L0/L1/L2/L3` names in examples are local labels, not standard levels or a required progression; consult each example's actual topology.
 
 ## 架构参考模块
 

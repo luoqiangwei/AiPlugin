@@ -336,11 +336,11 @@ flowchart LR
 
 ## When to Use / Skip
 
-### Use Clean + DDD + Hexagonal When:
+### Consider These Principles When:
 
 - ✅ Complex business domain with many rules
 - ✅ Long-lived system (years of maintenance)
-- ✅ Large team (5+ developers)
+- ✅ Actual coordination or dependency boundaries need clarification
 - ✅ Need to swap infrastructure (DB, broker, etc.)
 - ✅ High test coverage required
 - ✅ Multiple entry points (API, CLI, events, scheduled jobs)
@@ -349,25 +349,21 @@ flowchart LR
 
 - ❌ Simple CRUD application (most applications)
 - ❌ Prototype / MVP / throwaway code
-- ❌ Small team (1-2 devs)
 - ❌ Short-lived project
 - ❌ Trivial business logic
 
-### Complexity Ladder (Start Simple)
+### Independent Design Decisions (Start Simple)
 
 ```
-Level 1: Simple layered (Controller → Service → Repository)
-   ↓ When business rules grow complex
-Level 2: Domain model (Entities with behavior)
-   ↓ When need multiple entry points
-Level 3: Hexagonal (Ports & Adapters)
-   ↓ When read/write patterns diverge significantly
-Level 4: CQRS (Separate read/write models)
-   ↓ When need complete audit trail / temporal queries
-Level 5: Event Sourcing (Store events, derive state)
+Existing platform/layers → Keep when they meet the task
+Complex business rules  → Explicit domain model and invariants
+External dependencies   → Ports/adapters where isolation helps
+Divergent read/write    → Assess CQRS; shared storage is allowed
+Independent read needs  → Assess storage separation and synchronization
+Replayable state needed → Assess Event Sourcing independently
 ```
 
-**Don't skip levels.** Each level adds complexity. Move up only when you've proven the current level insufficient.
+These are independent choices, not required stages. Choose one primary organization and clear dependency rules; avoid duplicate layers for overlapping principles. Event Sourcing does not require CQRS or a prior separate read database.
 
 ---
 

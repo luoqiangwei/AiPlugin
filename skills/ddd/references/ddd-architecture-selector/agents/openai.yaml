@@ -1,4 +1,4 @@
 interface:
-  display_name: "DDD Architecture Selector"
-  short_description: "Architecture selection decision guide — help users choose from…"
-  default_prompt: "Use $ddd-architecture-selector to help with my current task: Architecture selection decision guide — help users choose from 5 DDD architectures (Layered/Onion/Hexagonal/Clean/COLA) with decision matrix, team size mapping, domain…"
+  display_name: "DDD Reference — Architecture Decisions"
+  short_description: "DDD reference: architecture and dependency decisions"
+  default_prompt: "Use $ddd to assess the current architecture and choose a primary organization with clear dependency rules, using the architecture selection reference module when needed."

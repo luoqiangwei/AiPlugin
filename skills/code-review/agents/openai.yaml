@@ -1,0 +1,4 @@
+interface:
+  display_name: "CodeReview"
+  short_description: "结合运行场景、语言和框架，审查正确性、安全性、并发与兼容问题"
+  default_prompt: "使用 $code-review 审查当前变更，结合运行场景、编程语言和实际使用的框架选择重点，报告有证据的问题、修复方向和验证结果。"

@@ -6,12 +6,12 @@
 | 2 | **CQRS forgotten**: Architecture selected without CQRS assessment | High | CQRS treated as an afterthought, not a design dimension | Include CQRS assessment as mandatory step in every selection |
 | 3 | **Domain classification skipped**: Same architecture applied to all domains | High | Team doesn't distinguish Core/Generic/Supporting | Always classify domains before picking architectures |
 | 4 | **Team capability mismatch**: Picking architecture the team can't implement | High | Evaluator assumes "ideal team" exists | Be honest about team DDD maturity; pick what they can actually deliver |
-| 5 | **Single selection forever**: Assuming architecture is fixed once chosen | Medium | Architecture seen as a one-time decision | Plan evolution: Layered → Hexagonal → CQRS as complexity grows |
+| 5 | **Single selection forever**: Assuming architecture is fixed once chosen | Medium | Architecture seen as a one-time decision | Reassess when concrete constraints change; there is no mandatory architecture ladder |
 | 6 | **Dependency rule violations**: Domain importing framework libraries | High | Team not trained on dependency direction | Enforce via ArchUnit in CI; make dependency checks non-optional |
-| 7 | **Over-engineering for small teams**: Hexagonal with 2-person team | Medium | "Best practice" applied without context | Match architecture to team size; small team = simpler architecture |
+| 7 | **Over-engineering**: Extra layers without a useful boundary | Medium | "Best practice" applied without context | Keep only abstractions that improve a real use case; team size alone does not select a pattern |
 | 8 | **Ignoring tech ecosystem**: COLA recommended for non-Java stack | High | Focus only on architecture, not language/tooling | COLA is Java-specific; Onion works better for .NET, Hexagonal for Go |
 | 9 | **One architecture for all microservices**: Monolithic thinking in distributed system | Medium | Each service gets same architecture template | Per-service selection based on domain type: Core→Complex, Generic→Simple |
-| 10 | **CQRS L2+ with Layered architecture** | High | Layered lacks port isolation for clean read/write separation | Only adopt L2+ with Hexagonal or Clean architectures |
+| 10 | **Storage separation without a consistency plan** | High | Read-store lag, synchronization failure and rebuild cost ignored | CQRS works with any clear architecture; shared-DB queries may read shared tables, while separate stores need explicit update/recovery contracts |
 | 11 | **Architecture without ArchUnit**: No automated dependency enforcement | Medium | Manual review misses violations as codebase grows | Add ArchUnit checks from day one, not after violations pile up |
 | 12 | **Ignoring infrastructure change frequency**: Picking Layered for high-change infra | Medium | Infra changes considered "rare" when they're not | If you plan to swap DB/MQ within 12 months, pick Hexagonal or Onion |
 | 13 | **Starting with microservices**: Splitting before proving the domain model | High | Team thinks microservices solve everything | Start monolith (Layered/COLA), split only when deployment/scaling demands it |
