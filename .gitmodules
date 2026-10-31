@@ -1,3 +1,33 @@
 [submodule "skills/android"]
 	path = skills/android
 	url = https://github.com/android/skills.git
+[submodule "skills/superpowers"]
+	path = skills/superpowers
+	url = https://github.com/obra/superpowers.git
+[submodule "skills/mattpocock"]
+	path = skills/mattpocock
+	url = https://github.com/mattpocock/skills.git
+[submodule "skills/anthropics"]
+	path = skills/anthropics
+	url = https://github.com/anthropics/skills.git
+[submodule "skills/addyosmani"]
+	path = skills/addyosmani
+	url = https://github.com/addyosmani/agent-skills.git
+[submodule "skills/vercel"]
+	path = skills/vercel
+	url = https://github.com/vercel-labs/agent-skills.git
+[submodule "skills/openai"]
+	path = skills/openai
+	url = https://github.com/openai/skills.git
+[submodule "skills/ui-ux-pro-max"]
+	path = skills/ui-ux-pro-max
+	url = https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git
+[submodule "skills/awesome-agent-skills"]
+	path = skills/awesome-agent-skills
+	url = https://github.com/VoltAgent/awesome-agent-skills.git
+[submodule "skills/context-engineering"]
+	path = skills/context-engineering
+	url = https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering.git
+[submodule "skills/impeccable"]
+	path = skills/impeccable
+	url = https://github.com/pbakaus/impeccable.git

@@ -10,6 +10,38 @@
 
 三个 skill 独立维护，不互相调用或要求安装彼此。各目录中的引用、脚本和 UI 元数据随相应 skill 使用。
 
+## 外部技能子项目
+
+`skills/` 下除自有 skill 外，还以 git submodule 方式挂载了上游技能仓库，用于对照、取材和按需安装。它们不属于本仓库内容，不在本仓库维护，各自的许可与更新节奏以上游为准。
+
+| 子项目 | 上游 | 用途 |
+|---|---|---|
+| `skills/android` | android/skills | Android 应用开发官方技能 |
+| `skills/superpowers` | obra/superpowers | 开发流程骨架：头脑风暴、计划、TDD、验证 |
+| `skills/mattpocock` | mattpocock/skills | 工程实战：建模、架构、TDD、排错 |
+| `skills/anthropics` | anthropics/skills | 标准参考实现与 docx/pptx/xlsx/pdf 产物 |
+| `skills/addyosmani` | addyosmani/agent-skills | 全流程阶段覆盖：规格、实现、审查、CI、发布 |
+| `skills/vercel` | vercel-labs/agent-skills | React / Next.js 性能与设计规范 |
+| `skills/openai` | openai/skills | Codex 目录：部署、Figma、CI 修复 |
+| `skills/ui-ux-pro-max` | nextlevelbuilder/ui-ux-pro-max-skill | 设计系统生成 |
+| `skills/impeccable` | pbakaus/impeccable | 前端设计语汇，防 AI 味界面 |
+| `skills/awesome-agent-skills` | VoltAgent/awesome-agent-skills | 社区技能索引，用于检索 |
+| `skills/context-engineering` | muratcankoylan/Agent-Skills-for-Context-Engineering | 多智能体与上下文工程 |
+
+克隆本仓库后需要显式拉取子模块内容：
+
+```sh
+git submodule update --init --recursive
+```
+
+`skills/impeccable` 为浅克隆并启用稀疏检出，只保留 `skill/`、`plugin/`、`docs/`（全量约 104 MB，其中大部分是测试与 Rust crate）。该配置写在本地 `.git/modules/skills/impeccable/` 下，不会随提交传播；新克隆需要重新执行：
+
+```sh
+git submodule update --init skills/impeccable
+git -C skills/impeccable sparse-checkout init --cone
+git -C skills/impeccable sparse-checkout set skill plugin docs
+```
+
 ## AOSP 资料与覆盖
 
 AOSP 知识以官方文档和公开源码为依据，正文采用原创机制归纳，不分发整站手册副本。它需要结合目标分支、产品配置、运行产物和设备证据使用。
