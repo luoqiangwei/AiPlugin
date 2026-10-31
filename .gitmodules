@@ -31,3 +31,183 @@
 [submodule "skills/impeccable"]
 	path = skills/impeccable
 	url = https://github.com/pbakaus/impeccable.git
+[submodule "skills/spec-kit"]
+	path = skills/spec-kit
+	url = https://github.com/github/spec-kit.git
+[submodule "skills/bmad-method"]
+	path = skills/bmad-method
+	url = https://github.com/bmad-code-org/BMAD-METHOD.git
+[submodule "skills/supabase"]
+	path = skills/supabase
+	url = https://github.com/supabase/agent-skills.git
+[submodule "skills/trailofbits"]
+	path = skills/trailofbits
+	url = https://github.com/trailofbits/skills.git
+[submodule "skills/cloudflare"]
+	path = skills/cloudflare
+	url = https://github.com/cloudflare/skills.git
+[submodule "skills/openai-plugins"]
+	path = skills/openai-plugins
+	url = https://github.com/openai/plugins.git
+[submodule "skills/awesome-copilot"]
+	path = skills/awesome-copilot
+	url = https://github.com/github/awesome-copilot.git
+[submodule "agents/pi"]
+	path = agents/pi
+	url = https://github.com/earendil-works/pi.git
+[submodule "agents/opencode"]
+	path = agents/opencode
+	url = https://github.com/anomalyco/opencode.git
+[submodule "agents/codex"]
+	path = agents/codex
+	url = https://github.com/openai/codex.git
+[submodule "agents/gemini-cli"]
+	path = agents/gemini-cli
+	url = https://github.com/google-gemini/gemini-cli.git
+[submodule "agents/cline"]
+	path = agents/cline
+	url = https://github.com/cline/cline.git
+[submodule "agents/aider"]
+	path = agents/aider
+	url = https://github.com/Aider-AI/aider.git
+[submodule "agents/goose"]
+	path = agents/goose
+	url = https://github.com/aaif-goose/goose.git
+[submodule "agents/openclaw"]
+	path = agents/openclaw
+	url = https://github.com/openclaw/openclaw.git
+[submodule "agents/openhands"]
+	path = agents/openhands
+	url = https://github.com/OpenHands/OpenHands.git
+[submodule "agents/openhands-sdk"]
+	path = agents/openhands-sdk
+	url = https://github.com/OpenHands/software-agent-sdk.git
+[submodule "model-serving/vllm"]
+	path = model-serving/vllm
+	url = https://github.com/vllm-project/vllm.git
+[submodule "model-serving/sglang"]
+	path = model-serving/sglang
+	url = https://github.com/sgl-project/sglang.git
+[submodule "model-serving/tensorrt-llm"]
+	path = model-serving/tensorrt-llm
+	url = https://github.com/NVIDIA/TensorRT-LLM.git
+[submodule "model-serving/lmdeploy"]
+	path = model-serving/lmdeploy
+	url = https://github.com/InternLM/lmdeploy.git
+[submodule "model-serving/llama.cpp"]
+	path = model-serving/llama.cpp
+	url = https://github.com/ggml-org/llama.cpp.git
+[submodule "model-serving/ollama"]
+	path = model-serving/ollama
+	url = https://github.com/ollama/ollama.git
+[submodule "model-serving/mlx-lm"]
+	path = model-serving/mlx-lm
+	url = https://github.com/ml-explore/mlx-lm.git
+[submodule "model-serving/xinference"]
+	path = model-serving/xinference
+	url = https://github.com/xorbitsai/inference.git
+[submodule "model-serving/triton-inference-server"]
+	path = model-serving/triton-inference-server
+	url = https://github.com/triton-inference-server/server.git
+[submodule "model-serving/ray"]
+	path = model-serving/ray
+	url = https://github.com/ray-project/ray.git
+[submodule "model-serving/bentoml"]
+	path = model-serving/bentoml
+	url = https://github.com/bentoml/BentoML.git
+[submodule "model-serving/kserve"]
+	path = model-serving/kserve
+	url = https://github.com/kserve/kserve.git
+[submodule "model-training/pytorch"]
+	path = model-training/pytorch
+	url = https://github.com/pytorch/pytorch.git
+[submodule "model-training/tensorflow"]
+	path = model-training/tensorflow
+	url = https://github.com/tensorflow/tensorflow.git
+[submodule "model-training/jax"]
+	path = model-training/jax
+	url = https://github.com/jax-ml/jax.git
+[submodule "model-training/flax"]
+	path = model-training/flax
+	url = https://github.com/google/flax.git
+[submodule "model-training/transformers"]
+	path = model-training/transformers
+	url = https://github.com/huggingface/transformers.git
+[submodule "model-training/diffusers"]
+	path = model-training/diffusers
+	url = https://github.com/huggingface/diffusers.git
+[submodule "model-training/accelerate"]
+	path = model-training/accelerate
+	url = https://github.com/huggingface/accelerate.git
+[submodule "model-training/deepspeed"]
+	path = model-training/deepspeed
+	url = https://github.com/deepspeedai/DeepSpeed.git
+[submodule "model-training/megatron-lm"]
+	path = model-training/megatron-lm
+	url = https://github.com/NVIDIA/Megatron-LM.git
+[submodule "model-training/torchtitan"]
+	path = model-training/torchtitan
+	url = https://github.com/pytorch/torchtitan.git
+[submodule "model-training/peft"]
+	path = model-training/peft
+	url = https://github.com/huggingface/peft.git
+[submodule "model-training/llama-factory"]
+	path = model-training/llama-factory
+	url = https://github.com/hiyouga/LlamaFactory.git
+[submodule "model-training/axolotl"]
+	path = model-training/axolotl
+	url = https://github.com/axolotl-ai-cloud/axolotl.git
+[submodule "model-training/unsloth"]
+	path = model-training/unsloth
+	url = https://github.com/unslothai/unsloth.git
+[submodule "model-training/trl"]
+	path = model-training/trl
+	url = https://github.com/huggingface/trl.git
+[submodule "model-training/verl"]
+	path = model-training/verl
+	url = https://github.com/verl-project/verl.git
+[submodule "model-training/openrlhf"]
+	path = model-training/openrlhf
+	url = https://github.com/OpenRLHF/OpenRLHF.git
+[submodule "ai-platforms/dify"]
+	path = ai-platforms/dify
+	url = https://github.com/langgenius/dify.git
+[submodule "ai-platforms/coze-studio"]
+	path = ai-platforms/coze-studio
+	url = https://github.com/coze-dev/coze-studio.git
+[submodule "ai-platforms/langflow"]
+	path = ai-platforms/langflow
+	url = https://github.com/langflow-ai/langflow.git
+[submodule "ai-platforms/fastgpt"]
+	path = ai-platforms/fastgpt
+	url = https://github.com/labring/FastGPT.git
+[submodule "ai-platforms/langchain"]
+	path = ai-platforms/langchain
+	url = https://github.com/langchain-ai/langchain.git
+[submodule "ai-platforms/langgraph"]
+	path = ai-platforms/langgraph
+	url = https://github.com/langchain-ai/langgraph.git
+[submodule "ai-platforms/crewai"]
+	path = ai-platforms/crewai
+	url = https://github.com/crewAIInc/crewAI.git
+[submodule "ai-platforms/metagpt"]
+	path = ai-platforms/metagpt
+	url = https://github.com/FoundationAgents/MetaGPT.git
+[submodule "ai-platforms/openai-agents-sdk"]
+	path = ai-platforms/openai-agents-sdk
+	url = https://github.com/openai/openai-agents-python.git
+[submodule "ai-platforms/google-adk"]
+	path = ai-platforms/google-adk
+	url = https://github.com/google/adk-python.git
+[submodule "ai-platforms/microsoft-agent-framework"]
+	path = ai-platforms/microsoft-agent-framework
+	url = https://github.com/microsoft/agent-framework.git
+[submodule "ai-platforms/agno"]
+	path = ai-platforms/agno
+	url = https://github.com/agno-agi/agno.git
+[submodule "ai-platforms/autogen"]
+	path = ai-platforms/autogen
+	url = https://github.com/microsoft/autogen.git
+[submodule "ai-platforms/n8n"]
+	path = ai-platforms/n8n
+	url = https://github.com/n8n-io/n8n.git

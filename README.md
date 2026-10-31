@@ -1,6 +1,6 @@
 # AiPlugin
 
-用于软件设计、开发和审查的独立技能集合。
+用于软件设计、开发和审查的技能集合，以及 Agent、AI 应用平台、模型训练、推理与部署框架的源码参考。
 
 | Skill | 职责 | 入口 |
 |---|---|---|
@@ -18,29 +18,64 @@
 |---|---|---|
 | `skills/android` | android/skills | Android 应用开发官方技能 |
 | `skills/superpowers` | obra/superpowers | 开发流程骨架：头脑风暴、计划、TDD、验证 |
+| `skills/spec-kit` | github/spec-kit | 规格驱动开发：项目原则、需求规格、技术计划、任务与实现验证 |
+| `skills/bmad-method` | bmad-code-org/BMAD-METHOD | 产品全流程：研究、PRD、UX、架构、开发、QA 与复盘 |
 | `skills/mattpocock` | mattpocock/skills | 工程实战：建模、架构、TDD、排错 |
 | `skills/anthropics` | anthropics/skills | 标准参考实现与 docx/pptx/xlsx/pdf 产物 |
 | `skills/addyosmani` | addyosmani/agent-skills | 全流程阶段覆盖：规格、实现、审查、CI、发布 |
 | `skills/vercel` | vercel-labs/agent-skills | React / Next.js 性能与设计规范 |
-| `skills/openai` | openai/skills | Codex 目录：部署、Figma、CI 修复 |
+| `skills/openai` | openai/skills | 历史 Codex Skills 目录，上游已弃用，保留参考 |
+| `skills/openai-plugins` | openai/plugins | 当前官方插件示例与技能包，包含 Figma、Web 开发、部署及 Sentry 等 |
+| `skills/supabase` | supabase/agent-skills | Postgres 设计、索引、SQL、迁移、RLS 与 Supabase 集成 |
+| `skills/trailofbits` | trailofbits/skills | 安全审计、代码差异审查与安全回归分析 |
+| `skills/cloudflare` | cloudflare/skills | Cloudflare 平台开发、Workers、Wrangler、部署与性能 |
 | `skills/ui-ux-pro-max` | nextlevelbuilder/ui-ux-pro-max-skill | 设计系统生成 |
 | `skills/impeccable` | pbakaus/impeccable | 前端设计语汇，防 AI 味界面 |
 | `skills/awesome-agent-skills` | VoltAgent/awesome-agent-skills | 社区技能索引，用于检索 |
+| `skills/awesome-copilot` | github/awesome-copilot | Copilot 社区 Agent、指令、技能、钩子、工作流与插件集合 |
 | `skills/context-engineering` | muratcankoylan/Agent-Skills-for-Context-Engineering | 多智能体与上下文工程 |
 
-克隆本仓库后需要显式拉取子模块内容：
+按上游仓库地址去重，同一仓库中的多个技能共用一个子模块。例如 `frontend-design` 和 `webapp-testing` 共用 `skills/anthropics`，Figma 与 Sentry 技能共用 `skills/openai-plugins`。新增子模块保留上游默认分支的固定提交，作为参考与按需安装来源。
+
+克隆本仓库后，可按固定提交浅克隆各子模块，Git LFS 大文件按需获取：
 
 ```sh
-git submodule update --init --recursive
+GIT_LFS_SKIP_SMUDGE=1 git submodule update --init --depth 1
 ```
+
+需要构建某个上游项目时，再按其文档初始化嵌套子模块、安装依赖并拉取 LFS 资源。各分类目录的 README 也提供选择性拉取命令。
 
 `skills/impeccable` 为浅克隆并启用稀疏检出，只保留 `skill/`、`plugin/`、`docs/`（全量约 104 MB，其中大部分是测试与 Rust crate）。该配置写在本地 `.git/modules/skills/impeccable/` 下，不会随提交传播；新克隆需要重新执行：
 
 ```sh
-git submodule update --init skills/impeccable
+git submodule update --init --depth 1 skills/impeccable
 git -C skills/impeccable sparse-checkout init --cone
 git -C skills/impeccable sparse-checkout set skill plugin docs
 ```
+
+## 开源 Agent 子项目
+
+`agents/` 以 Git submodule 方式收录开源 Agent 源码，用于研究 Agent 循环、工具调用、上下文管理、交互界面及运行时实现。完整上游清单、仓库迁移说明和拉取方式见 [Agent 子项目目录](agents/README.md)。
+
+当前收录 Pi、OpenCode、Codex、Gemini CLI、Cline、Aider、Goose、OpenClaw，以及 OpenHands Agent Canvas 与核心 SDK。各仓库固定到具体提交，按上游地址与现有 `skills/` 子模块统一去重。
+
+## AI 平台、框架与自动化子项目
+
+`ai-platforms/` 统一收录 AI 应用平台、Agent 开发框架/SDK 和工作流自动化项目，目录内按类型标注用途。完整清单、上游说明及拉取方式见 [AI 平台与框架目录](ai-platforms/README.md)。
+
+当前收录 Dify、Coze Studio、Langflow、FastGPT、LangChain、LangGraph、CrewAI、MetaGPT、OpenAI Agents SDK、Google ADK、Agno、AutoGen、Microsoft Agent Framework 和 n8n。AutoGen 保留为历史参考，其上游推荐的后继框架同时收录。
+
+## 模型训练子项目
+
+`model-training/` 与 `model-serving/` 平级，以 Git submodule 收录通用训练框架、模型训练组件、分布式训练、微调及强化学习后训练项目。完整清单、职责与拉取方式见 [模型训练目录](model-training/README.md)。
+
+当前收录 PyTorch、TensorFlow、JAX、Flax、Transformers、Diffusers、Accelerate、DeepSpeed、Megatron-LM、TorchTitan、PEFT、LlamaFactory、Axolotl、Unsloth、TRL、verl 和 OpenRLHF。Ray Train/Tune、MLX LM 及 rollout 引擎引用已有 `model-serving/` 子模块。
+
+## 模型推理与部署子项目
+
+`model-serving/` 与 `skills/`、`agents/` 平级，以 Git submodule 收录模型推理引擎、本地运行时和服务部署框架。完整清单、各项目职责与拉取方式见 [模型推理与部署目录](model-serving/README.md)。
+
+当前收录 vLLM、SGLang、TensorRT-LLM、LMDeploy、llama.cpp、Ollama、MLX LM、Xinference、Triton Inference Server、Ray Serve（Ray 主仓库）、BentoML 和 KServe，覆盖本地推理、多模型服务及生产部署。
 
 ## AOSP 资料与覆盖
 
